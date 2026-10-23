@@ -1,0 +1,28 @@
+.project-brand {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  line-height: 1;
+}
+
+.project-brand__logo {
+  width: auto;
+  max-width: min(12rem, 50vw);
+  height: auto;
+  max-height: 3.75rem;
+  object-fit: contain;
+}
+
+.project-brand__name {
+  font-size: var(--text-heading-2);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+@media (min-width: 64rem) {
+  .project-brand__logo {
+    max-width: 16rem;
+    max-height: 5rem;
+  }
+}

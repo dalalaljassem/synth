@@ -1,0 +1,56 @@
+.project-slide {
+  position: relative;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+}
+
+/* Every slide uses the same frame: photo centred and cropped to fill it */
+.project-slide__image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/*
+ * Wide screens: one fixed 4:5 panel, full height and centred, identical on
+ * every slide of every project, over a blurred copy of the same photo.
+ */
+@media (min-width: 64rem) and (min-aspect-ratio: 4 / 5) {
+  .project-slide::before {
+    content: '';
+    position: absolute;
+    inset: -4rem;
+    background: var(--slide-image) center / cover no-repeat;
+    filter: blur(48px) saturate(1.1) brightness(0.9);
+  }
+
+  .project-slide__image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    transform: translateX(-50%);
+  }
+}
+
+/* Soft scrim so overlay text stays legible on any photograph */
+.project-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--slide-scrim, rgba(0, 0, 0, 0.18)) 0%,
+    transparent 22%,
+    transparent 62%,
+    var(--slide-scrim, rgba(0, 0, 0, 0.28)) 100%
+  );
+  pointer-events: none;
+}

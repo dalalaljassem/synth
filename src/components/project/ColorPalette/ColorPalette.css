@@ -1,0 +1,12 @@
+.color-palette {
+  display: flex;
+  gap: 0.4375rem; /* 7px */
+  width: 100%;
+}
+
+.color-palette__swatch {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 0.5625rem; /* 9px */
+  transition: background-color var(--duration-slow) var(--ease-out);
+}

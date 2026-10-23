@@ -1,0 +1,29 @@
+.home-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
+
+.home-page__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.home-page__capabilities {
+  display: grid;
+  gap: var(--section-gap);
+}
+
+/* Grid/flex children default to min-width:auto — let long morse rules shrink */
+.home-page__intro > *,
+.home-page__capabilities > * {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .home-page__capabilities {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-9);
+  }
+}

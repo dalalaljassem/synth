@@ -1,0 +1,1 @@
+export { SlideIndicator } from './SlideIndicator';

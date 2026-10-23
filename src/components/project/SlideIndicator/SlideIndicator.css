@@ -1,0 +1,53 @@
+.slide-indicator {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: var(--z-overlay);
+  max-height: 46dvh;
+  padding: var(--space-2) var(--gutter) var(--space-2) var(--space-2);
+  overflow-y: auto;
+  scrollbar-width: none;
+  transform: translateY(-50%);
+}
+
+.slide-indicator::-webkit-scrollbar {
+  display: none;
+}
+
+.slide-indicator__list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.875rem;
+}
+
+.slide-indicator__item {
+  display: flex;
+}
+
+.slide-indicator__tick {
+  position: relative;
+  width: 2.0625rem;  /* 33px */
+  height: 0.5625rem; /* 9px  */
+  border-radius: var(--radius-pill);
+  background: var(--indicator-color, rgba(255, 255, 255, 0.45));
+  transition:
+    width var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out);
+}
+
+/* Larger hit area without changing the visual */
+.slide-indicator__tick::before {
+  content: '';
+  position: absolute;
+  inset: -0.4rem -0.25rem;
+}
+
+.slide-indicator__tick:hover {
+  background: var(--indicator-color-active, rgba(255, 255, 255, 0.85));
+}
+
+.slide-indicator__tick.is-active {
+  width: 3.5rem; /* 56px */
+  background: var(--indicator-color-active, rgba(255, 255, 255, 0.85));
+}

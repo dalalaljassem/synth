@@ -1,0 +1,115 @@
+/* ==========================================================================
+   SYNTH design tokens
+   Source of truth: SYNTH Brand Guidelines (Oct 2026) + Figma prototype.
+   Change values here — components only reference these variables.
+   ========================================================================== */
+
+:root {
+  /* ---- Colour · brand palette (Guidelines p.13) ---- */
+  --color-black: #000000;
+  --color-grey-dark: #3b3b3b;
+  --color-grey-medium: #8f8f8f;
+  --color-grey: #cccccc;
+  --color-grey-light: #f1f1f1;
+  --color-white: #ffffff;
+  --color-lime: #cdf408; /* accent: max one "lime moment" per layout */
+
+  /* ---- Colour · sub-brands (Guidelines p.24) ---- */
+  --color-formed: #cdf408;
+  --color-objects: #e8502a;
+  --color-build: #028985;
+  --color-systems: #744dc8;
+
+  /* ---- Colour · semantic ---- */
+  --color-bg: var(--color-white);
+  --color-bg-raised: var(--color-white);
+  --color-text: var(--color-black);
+  --color-text-muted: var(--color-grey-dark);
+  --color-text-subtle: var(--color-grey-medium);
+  --color-line: rgba(0, 0, 0, 0.52);
+  --color-line-soft: var(--color-grey);
+  --color-glass: rgba(217, 217, 217, 0.32);
+  --color-glass-border: rgba(255, 255, 255, 0.45);
+  --color-focus: var(--color-black);
+
+  /* ---- Typography (Guidelines p.15) ---- */
+  --font-sans: 'Urbanist', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Fluid type scale: mobile (402px design) → desktop (1440px) */
+  --text-footnote: 0.625rem;                                  /* 10px */
+  --text-label: 0.6875rem;                                    /* 11px */
+  --text-caption: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem); /* 12 → 14 */
+  --text-body: clamp(0.8125rem, 0.76rem + 0.25vw, 1.0625rem); /* 13 → 17 */
+  --text-lead: clamp(0.9375rem, 0.85rem + 0.45vw, 1.375rem);  /* 15 → 22 */
+  --text-heading-3: clamp(0.9375rem, 0.88rem + 0.3vw, 1.25rem);
+  --text-heading-2: clamp(1.25rem, 1.05rem + 1vw, 2.25rem);   /* 20 → 36 */
+  --text-heading-1: clamp(1.5rem, 1.1rem + 2vw, 3.5rem);
+  --text-display: clamp(2.5rem, 1.5rem + 5vw, 7.5rem);
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-label: 0.08em;
+  --tracking-wide: 0.18em;
+  --tracking-wider: 0.3em;
+
+  --leading-tight: 1;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 6rem;
+  --space-11: 8rem;
+
+  --gutter: clamp(1.125rem, 0.6rem + 2.6vw, 3rem);
+  --section-gap: clamp(3rem, 2rem + 5vw, 7.5rem);
+
+  /* ---- Layout ---- */
+  --container-max: 75rem;  /* 1200px */
+  --container-narrow: 46rem;
+  --header-height: 4.5rem;
+
+  /* ---- Shape ---- */
+  --radius-pill: 999px;
+  --radius-sm: 4px;
+  --border-thin: 1px solid var(--color-line);
+
+  /* ---- Effects ---- */
+  --blur-glass: blur(24px);
+  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+
+  /* ---- Layers ---- */
+  --z-content: 1;
+  --z-overlay: 10;
+  --z-menu: 15;   /* menu sits under the header so the logo pill can close it */
+  --z-header: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}

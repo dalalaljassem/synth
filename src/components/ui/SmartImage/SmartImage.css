@@ -1,0 +1,23 @@
+.smart-image {
+  display: block;
+}
+
+.smart-image--missing {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  background:
+    repeating-linear-gradient(-45deg, transparent 0 6px, rgba(0, 0, 0, 0.05) 6px 7px),
+    var(--color-grey);
+  overflow: hidden;
+}
+
+.smart-image__hint {
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.3;
+  color: var(--color-grey-dark);
+  word-break: break-all;
+}

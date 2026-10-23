@@ -1,0 +1,7 @@
+.brand-logo {
+  width: 100%;
+  height: auto;
+  /* Minimum digital width is 120px (Guidelines p.10); smaller only inside UI chrome. */
+  user-select: none;
+  -webkit-user-drag: none;
+}

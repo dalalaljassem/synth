@@ -1,0 +1,27 @@
+.project-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 16rem);
+}
+
+.project-info__caption {
+  font-size: var(--text-caption);
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.04em;
+  line-height: var(--leading-snug);
+  text-align: justify;
+  hyphens: auto;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.project-info__caption.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (min-width: 64rem) {
+  .project-info {
+    width: 24rem;
+  }
+}

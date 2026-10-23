@@ -1,0 +1,81 @@
+.morse-divider {
+  --morse-speed: 40s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 1.5rem;
+  overflow: hidden;
+}
+
+/* ---- Moving line ---- */
+
+.morse-divider__track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: morse-scroll var(--morse-speed) linear infinite;
+  will-change: transform;
+}
+
+.morse-divider--right .morse-divider__track {
+  animation-direction: reverse;
+}
+
+.morse-divider__strip {
+  flex: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-footnote);
+  letter-spacing: 0.12em;
+  line-height: 1;
+  white-space: pre;
+}
+
+@keyframes morse-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morse-divider__track {
+    animation: none;
+  }
+}
+
+/* ---- Section label: plain caps set into the line (Figma "SERVICES") ---- */
+
+.morse-divider__label {
+  position: absolute;
+  top: 50%;
+  left: 1.875rem; /* 30px into the line */
+  z-index: 1;
+  padding-inline: 0.5em;
+  font-family: var(--font-sans);
+  font-size: var(--text-footnote);
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  background: var(--color-bg);
+  transform: translateY(-50%);
+}
+
+/* ---- Tones ---- */
+
+.morse-divider--dark {
+  color: var(--color-text);
+}
+
+.morse-divider--light {
+  color: var(--color-white);
+}
+
+@media (min-width: 64rem) {
+  .morse-divider__label {
+    font-size: var(--text-label);
+  }
+}
