@@ -3,10 +3,10 @@ import { MorseDivider } from '@/components/ui/MorseDivider';
 import './ContactSection.css';
 
 /** Closing call to action and contact channels. */
-export function ContactSection({ label, heading, audiences, channels, morseCode }) {
+export function ContactSection({ label, heading, audiences, channels, morseCode, tone = 'dark' }) {
   return (
     <section id="contact" className="contact-section" aria-labelledby="contact-heading">
-      <MorseDivider code={morseCode} label={label} labelId="contact-heading" />
+      <MorseDivider code={morseCode} label={label} labelId="contact-heading" tone={tone} />
 
       <CornerFrame className="contact-section__body">
         <p className="contact-section__heading">{heading}</p>

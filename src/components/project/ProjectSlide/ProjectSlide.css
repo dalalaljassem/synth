@@ -16,8 +16,10 @@
 }
 
 /*
- * Wide screens: one fixed 4:5 panel, full height and centred, identical on
- * every slide of every project, over a blurred copy of the same photo.
+ * Wide screens: one fixed 4:5 panel, full height, pinned to the RIGHT on
+ * every slide of every project (description + colours sit on the left,
+ * see ProjectPage.css), over a blurred copy of the same photo.
+ * Mobile keeps the full-screen vertical scroll.
  */
 @media (min-width: 64rem) and (min-aspect-ratio: 4 / 5) {
   .project-slide::before {
@@ -31,12 +33,9 @@
   .project-slide__image {
     position: absolute;
     top: 0;
-    left: 50%;
-    width: auto;
-    max-width: 100%;
+    right: 0;
+    width: var(--project-panel-w, auto);
     height: 100%;
-    aspect-ratio: 4 / 5;
-    transform: translateX(-50%);
   }
 }
 

@@ -1,0 +1,18 @@
+.spline-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* clicks pass through to the page */
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.spline-scene.is-ready {
+  opacity: 1;
+}
+
+.spline-scene__canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

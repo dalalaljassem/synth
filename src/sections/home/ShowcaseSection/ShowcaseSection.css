@@ -1,0 +1,98 @@
+.showcase-section {
+  --showcase-unit: clamp(0.62rem, 0.42rem + 0.75vw, 1rem); /* scales every tile */
+  --showcase-gap: 2px; /* tiles butt together: no empty space */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  overflow: hidden;
+}
+
+.showcase-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.showcase-section__intro {
+  max-width: 34ch;
+  font-size: var(--text-lead);
+  font-weight: var(--weight-light);
+  line-height: var(--leading-snug);
+  color: var(--color-text-muted);
+}
+
+/* ---- Track ---- */
+.showcase-section__track {
+  --track-inset: max(var(--gutter), calc((100vw - var(--container-max)) / 2));
+  display: flex;
+  align-items: stretch;
+  gap: var(--showcase-gap);
+  padding: 0 var(--track-inset);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: var(--track-inset);
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.showcase-section__track::-webkit-scrollbar {
+  display: none;
+}
+
+.showcase-section__track.is-dragging {
+  cursor: grabbing;
+}
+
+.showcase-section__track.is-dragging .showcase-card {
+  pointer-events: none;
+}
+
+.showcase-section__group {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  gap: var(--showcase-gap);
+}
+
+/* Every column is the same height and its tiles stretch to fill it,
+   so the collage is one solid block with no gaps above or below tiles */
+.showcase-section__column {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--showcase-gap);
+  height: calc(var(--showcase-unit) * 34);
+}
+
+.showcase-section__column .showcase-card {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ---- Hint ---- */
+.showcase-section__hint {
+  font-family: var(--font-mono);
+  font-size: var(--text-footnote);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+@media (hover: none) {
+  .showcase-section__hint::before {
+    content: 'Swipe ';
+  }
+
+  .showcase-section__hint {
+    font-size: 0;
+  }
+
+  .showcase-section__hint::before,
+  .showcase-section__hint::after {
+    font-size: var(--text-footnote);
+  }
+
+  .showcase-section__hint::after {
+    content: 'to explore →';
+  }
+}

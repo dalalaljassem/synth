@@ -1,0 +1,1 @@
+export { SplineScene } from './SplineScene';

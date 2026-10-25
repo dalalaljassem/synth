@@ -1,0 +1,1 @@
+export { BrandTape } from './BrandTape';

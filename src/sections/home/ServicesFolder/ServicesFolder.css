@@ -1,0 +1,272 @@
+/*
+ * Outlined index-card drawer on black. 1em = drawer width / 76, so the whole
+ * drawing scales with the screen. Lines are 1px white; selected tab is lime.
+ */
+.services-folder {
+  --folder-bg: #000000;
+  --folder-line: rgba(255, 255, 255, 0.62);
+  --folder-line-strong: rgba(255, 255, 255, 0.95);
+  --folder-muted: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  padding-block: var(--space-9) var(--space-8);
+  background: var(--folder-bg);
+  color: var(--color-white);
+}
+
+.services-folder .morse-divider__label {
+  background: var(--folder-bg);
+  color: var(--color-white);
+}
+
+/* ---------- Drawer ---------- */
+.services-folder__drawer {
+  --w: min(46rem, 100vw - 2 * var(--gutter));
+  --scale: 76;            /* 1em = drawer width / scale */
+  --step: 4.6em;          /* vertical distance between stacked cards */
+  --stack-top: 27em;      /* where the first stacked card starts */
+  --front-h: 11em;        /* height of the drawer front */
+  --tab-w: min(19em, 36%);
+  position: relative;
+  width: var(--w);
+  height: calc(var(--stack-top) + var(--step) * (var(--card-count) - 1) + 5em + var(--front-h));
+  margin-inline: auto;
+  font-size: calc(var(--w) / var(--scale));
+}
+
+/* ---------- Tabs (shared) ---------- */
+.services-folder__tab {
+  position: absolute;
+  bottom: calc(100% - 1px);
+  left: min(var(--tab-left), 100% - var(--tab-w)); /* never past the card's right edge */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2em;
+  width: var(--tab-w);
+  min-height: max(2.6em, 24px);
+  padding: 0 1.1em;
+  border: 1px solid var(--folder-line);
+  border-bottom: 0;
+  background: var(--folder-bg);
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-mono);
+  font-size: max(1em, 9.5px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+
+.services-folder__tab > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.services-folder__tab:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}
+
+/* ---------- Back card: the selected service ---------- */
+.services-folder__feature {
+  position: absolute;
+  top: 4.5em;
+  left: 4%;
+  right: 4%;
+  height: calc(var(--stack-top) + var(--step) * 2);
+  border: 1px solid var(--folder-line);
+  background: var(--folder-bg);
+}
+
+.services-folder__tab--feature {
+  cursor: default;
+  background: var(--color-lime);
+  color: var(--color-black);
+}
+
+.services-folder__feature-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8em;
+  padding: max(3em, 22px) 4em 0;
+  text-align: center;
+  animation: folder-feature-in 520ms var(--ease-out);
+}
+
+.services-folder__feature-index {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: max(1.1em, 10px);
+  letter-spacing: var(--tracking-label);
+  color: var(--folder-muted);
+}
+
+.services-folder__feature-title {
+  margin: 0;
+  font-size: max(2.8em, 20px);
+  font-weight: var(--weight-medium);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.services-folder__feature-text {
+  max-width: 44ch;
+  margin: 0;
+  font-size: max(1.25em, 12px);
+  font-weight: var(--weight-light);
+  line-height: 1.4;
+  color: var(--folder-muted);
+}
+
+/* ---------- Stacked cards ---------- */
+.services-folder__stack {
+  position: absolute;
+  inset: 0;
+  /* cards end just inside the drawer front, so no edges poke out under it */
+  clip-path: inset(-8em -2em calc(var(--front-h) - 2em) -2em);
+}
+
+.services-folder__card {
+  position: absolute;
+  top: calc(var(--stack-top) + var(--step) * var(--i));
+  left: 2.5%;
+  right: 2.5%;
+  height: 30em;
+  border: 1px solid var(--folder-line);
+  background: var(--folder-bg);
+  transition:
+    transform 450ms var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+/* faint ruled lines inside each card, like an index card */
+.services-folder__card::after {
+  content: '';
+  position: absolute;
+  inset: 1.4em 6% auto auto;
+  width: 38%;
+  height: 0.9em;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+/* Hover / focus: the card lifts, its outline and tab brighten */
+.services-folder__card:hover,
+.services-folder__card:focus-within {
+  transform: translateY(-1.4em);
+  border-color: var(--folder-line-strong);
+}
+
+.services-folder__card:hover .services-folder__tab,
+.services-folder__tab:focus-visible {
+  border-color: var(--folder-line-strong);
+  color: var(--color-white);
+}
+
+/* Selected: lime tab */
+.services-folder__card.is-active .services-folder__tab {
+  background: var(--color-lime);
+  color: var(--color-black);
+}
+
+/* Click: the card is pulled up and dropped back */
+.services-folder__card.is-pulled {
+  animation: folder-pull 650ms var(--ease-out);
+}
+
+/* ---------- Drawer front ---------- */
+.services-folder__front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: var(--front-h);
+}
+
+.services-folder__front-outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.services-folder__front-outline polygon {
+  fill: var(--folder-bg);
+  stroke: var(--folder-line);
+  stroke-width: 1;
+}
+
+.services-folder__front-label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8em;
+  height: 100%;
+}
+
+.services-folder__front-logo {
+  width: max(7em, 60px);
+  height: auto;
+  filter: invert(1); /* black wordmark → white on the drawer */
+}
+
+.services-folder__front-count {
+  font-family: var(--font-mono);
+  font-size: max(1.1em, 10px);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--folder-muted);
+}
+
+/* Phones: draw the drawer at a larger scale so labels stay readable */
+@media (max-width: 47.99rem) {
+  .services-folder__drawer {
+    --scale: 44;
+    --stack-top: 31em;
+    --step: 5em;
+    --front-h: 10em;
+    --tab-w: 58%;
+  }
+
+  .services-folder__feature-body {
+    padding-inline: 2em;
+  }
+}
+
+@keyframes folder-feature-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.2em);
+  }
+}
+
+@keyframes folder-pull {
+  35% {
+    transform: translateY(-5em);
+  }
+  70% {
+    transform: translateY(-0.6em);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-folder__card,
+  .services-folder__card.is-pulled,
+  .services-folder__feature-body {
+    transition: none;
+    animation: none;
+  }
+}

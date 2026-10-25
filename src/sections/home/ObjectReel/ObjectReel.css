@@ -1,0 +1,77 @@
+.object-reel {
+  overflow: hidden;
+}
+
+.object-reel__track {
+  display: flex;
+  width: max-content;
+  gap: 2px;
+  animation: object-reel-drift 70s linear infinite;
+}
+
+.object-reel:hover .object-reel__track {
+  animation-play-state: paused;
+}
+
+.object-reel__group {
+  display: flex;
+  gap: 2px;
+}
+
+.object-reel__item {
+  position: relative;
+  flex: none;
+  height: clamp(18rem, 12rem + 22vw, 34rem);
+  aspect-ratio: 9 / 16;
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-grey-light);
+}
+
+.object-reel__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.object-reel__caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: var(--text-footnote);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.object-reel__item:hover .object-reel__caption {
+  opacity: 1;
+}
+
+@keyframes object-reel-drift {
+  to {
+    transform: translateX(calc(-50% - 1px));
+  }
+}
+
+@media (hover: none) {
+  .object-reel__caption {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .object-reel {
+    overflow-x: auto;
+  }
+
+  .object-reel__track {
+    animation: none;
+  }
+}

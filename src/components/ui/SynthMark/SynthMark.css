@@ -1,0 +1,12 @@
+.synth-mark {
+  display: block;
+  width: auto;
+  height: 1em;
+  fill: currentColor;
+  overflow: visible;
+}
+
+.synth-mark__dot {
+  fill: var(--mark-dot, currentColor);
+  transition: fill var(--duration-base) var(--ease-out);
+}

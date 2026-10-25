@@ -33,10 +33,16 @@ export function useActiveSlide(slideCount) {
   };
 
   const scrollToSlide = (index) => {
+    const container = containerRef.current;
     const target = slideRefs.current[index];
-    if (!target) return;
+    if (!container || !target) return;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+    // Scroll the gallery itself (works for vertical and horizontal layouts)
+    container.scrollTo({
+      top: target.offsetTop - container.offsetTop,
+      left: target.offsetLeft - container.offsetLeft,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
   };
 
   return { containerRef, registerSlide, activeIndex, scrollToSlide };

@@ -1,0 +1,45 @@
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header) + 10);
+  display: grid;
+  place-items: center;
+  background: var(--color-white);
+  transition:
+    opacity var(--intro-fade) var(--ease-out),
+    visibility 0s linear var(--intro-fade);
+}
+
+.intro-screen.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-screen__video {
+  width: min(92vw, 56rem);
+  max-height: 80dvh;
+  object-fit: contain;
+}
+
+.intro-screen__skip {
+  position: absolute;
+  right: var(--gutter);
+  bottom: max(var(--space-6), env(safe-area-inset-bottom));
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-pill);
+  background: var(--color-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  backdrop-filter: var(--blur-glass);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+
+.intro-screen__skip:hover {
+  background: rgba(217, 217, 217, 0.5);
+}

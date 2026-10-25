@@ -2,29 +2,13 @@
   position: relative;
   height: 100dvh;
   overflow: hidden;
-  background: var(--project-background, var(--color-grey-dark));
-}
-
-.project-page--tone-light {
-  color: var(--color-white);
-  --indicator-color: rgba(255, 255, 255, 0.45);
-  --indicator-color-active: rgba(255, 255, 255, 0.9);
-}
-
-.project-page--tone-dark {
+  background: var(--color-white);
   color: var(--color-black);
-  --indicator-color: rgba(0, 0, 0, 0.12);
-  --indicator-color-active: rgba(0, 0, 0, 0.55);
-  --slide-scrim: transparent;
 }
+
+/* ---- Scroll container (mobile: snaps screen by screen) ---- */
 
 .project-page__main {
-  height: 100%;
-}
-
-/* ---- Scroll container ---- */
-
-.project-page__slides {
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -32,49 +16,122 @@
   scrollbar-width: none;
 }
 
-.project-page__slides::-webkit-scrollbar {
+.project-page__main::-webkit-scrollbar {
   display: none;
 }
 
-.project-page__slides:focus-visible {
-  outline-offset: -4px;
+/* ==========================================================================
+   1. Intro — logo, concept, colours on white
+   ========================================================================== */
+
+.project-intro {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: var(--space-4);
+  min-height: 100dvh;
+  padding: calc(var(--header-height) + var(--space-2)) var(--gutter) var(--space-5);
+  scroll-snap-align: start;
 }
 
-/* ---- Overlays (non-interactive areas let scroll pass through) ---- */
-
-.project-page__masthead,
-.project-page__footer {
-  position: absolute;
-  inset-inline: 0;
-  z-index: var(--z-overlay);
+.project-intro__body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-inline: var(--gutter);
-  pointer-events: none;
+  justify-content: center;
+  gap: var(--space-6);
+  width: min(100%, 34rem);
+  margin-inline: auto;
+  text-align: center;
 }
 
-.project-page__masthead {
-  top: calc(var(--header-height) - var(--space-1));
-  gap: var(--space-1);
+.project-intro .project-brand__logo {
+  max-width: min(13rem, 52vw);
+  max-height: 4rem;
 }
 
-.project-page__footer {
-  bottom: 0;
-  gap: var(--space-4);
-  padding-bottom: max(var(--space-5), env(safe-area-inset-bottom));
+/* White client artwork → shown black on the white intro */
+.project-intro--logo-light .project-brand__logo {
+  filter: brightness(0);
 }
 
-.project-page__masthead > *,
-.project-page__footer > * {
-  max-width: var(--container-max);
+.project-intro__concept {
+  margin: 0;
+  font-size: var(--text-lead);
+  font-weight: var(--weight-light);
+  line-height: 1.45;
+  text-wrap: pretty;
 }
+
+.project-intro .color-palette {
+  width: min(100%, 24rem);
+}
+
+.project-intro__hint {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-footnote);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   2. Gallery — images only
+   Mobile: one full-screen image after another.
+   Desktop: three across, scroll for more.
+   ========================================================================== */
+
+.project-gallery {
+  display: grid;
+}
+
+.project-gallery__item {
+  position: relative;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-grey-light);
+  scroll-snap-align: start;
+}
+
+.project-gallery__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 64rem) {
+  .project-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2px;
+    background: var(--color-white);
+  }
+
+  /* Each row of three fills the whole screen; rows snap like mobile */
+  .project-gallery__item {
+    height: 100dvh;
+  }
+
+  .project-gallery__image {
+    transition: transform 900ms var(--ease-out);
+  }
+
+  .project-gallery__item:hover .project-gallery__image {
+    transform: scale(1.04);
+  }
+}
+
+/* ---- Back to all projects (glass pill, bottom left) ---- */
 
 .project-page__back {
+  position: absolute;
+  left: var(--gutter);
+  bottom: max(var(--space-5), env(safe-area-inset-bottom));
+  z-index: var(--z-overlay);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-start;
   width: 4.9rem;
   height: 1.95rem;
   border: 1px solid var(--color-glass-border);
@@ -82,8 +139,7 @@
   background: var(--color-glass);
   -webkit-backdrop-filter: var(--blur-glass);
   backdrop-filter: var(--blur-glass);
-  color: inherit;
-  pointer-events: auto;
+  color: var(--color-black);
   transition: background-color var(--duration-base) var(--ease-out);
 }
 
@@ -95,15 +151,9 @@
   width: 2.95rem;
 }
 
-@media (min-width: 64rem) {
-  .project-page__back {
-    position: absolute;
-    left: var(--gutter);
-    bottom: max(var(--space-5), env(safe-area-inset-bottom));
-  }
-
-  .project-page__footer > .morse-divider {
-    width: calc(100% - 7rem);
-    margin-left: 7rem;
-  }
+/* Leave room for the back pill at the start of the bottom morse rule */
+.project-intro > .morse-divider:last-child {
+  width: auto;
+  margin-left: 6.25rem;
+  min-width: 0;
 }

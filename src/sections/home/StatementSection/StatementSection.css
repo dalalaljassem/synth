@@ -1,4 +1,5 @@
 .statement-section {
+  position: relative;
   display: grid;
   gap: var(--space-6);
   padding-block: var(--space-7) var(--space-6);
@@ -33,12 +34,33 @@
   text-align: justify;
 }
 
+/* ---------- Tapes: three parallel strips with space between, tilted
+   together and bleeding past the screen edges ---------- */
+.statement-section__tapes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: calc(100% + 2 * var(--gutter) + 3rem);
+  margin-inline: calc(-1 * var(--gutter) - 1.5rem);
+  padding-block: 1.4rem;
+  margin-block: -1.5rem 2.4rem; /* tuck under the heading, clear the paragraph's tilted corner */
+  transform: rotate(-4deg);
+}
+
+/* Desktop: heading and paragraph side by side, the tape runs across beneath them */
 @media (min-width: 64rem) {
   .statement-section {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-areas:
+      'heading body'
+      'tape tape';
     align-items: end;
-    gap: var(--space-10);
+    column-gap: var(--space-10);
+    row-gap: var(--space-8);
   }
+
+  .statement-section__heading-wrap { grid-area: heading; }
+  .statement-section__body { grid-area: body; }
 
   .statement-section__heading {
     font-size: var(--text-heading-1);
@@ -46,5 +68,15 @@
 
   .statement-section__body {
     font-size: var(--text-lead);
+  }
+
+  .statement-section__tapes {
+    grid-area: tape;
+    gap: 1.2rem;
+    width: 108vw; /* wider than the screen so the tilted ends never show */
+    margin-inline: calc(50% - 54vw);
+    padding-block: 2rem;
+    margin-block: 0;
+    transform: rotate(-2.5deg);
   }
 }

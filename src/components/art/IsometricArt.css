@@ -1,0 +1,47 @@
+.iso-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.iso-art__face {
+  fill: var(--color-white);
+  stroke: var(--color-black);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.iso-art__face--shade {
+  fill: var(--color-grey-light);
+}
+
+.iso-art__face--accent {
+  fill: var(--accent, var(--color-lime));
+}
+
+.iso-art__guide {
+  stroke: var(--color-black);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+}
+
+.iso-art__rule {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.25);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.iso-art__dot {
+  fill: var(--accent, var(--color-lime));
+  stroke: var(--color-black);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.iso-art__shadow {
+  fill: rgba(0, 0, 0, 0.18);
+}

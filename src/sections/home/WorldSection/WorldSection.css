@@ -1,0 +1,104 @@
+.world-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.world-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.world-section__intro {
+  max-width: 34ch;
+  font-size: var(--text-lead);
+  font-weight: var(--weight-light);
+  line-height: var(--leading-snug);
+  color: var(--color-text-muted);
+}
+
+/* ---- Grid: full bleed, 2px lines, no empty space ---- */
+
+.world-section__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+}
+
+/* Mobile: tiles flow into two even columns */
+.world-section__column {
+  display: contents;
+}
+
+.world-section__item {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-grey-light);
+}
+
+.world-section__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-out);
+}
+
+.world-section__caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: var(--text-footnote);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.world-section__item:hover .world-section__caption {
+  opacity: 1;
+}
+
+.world-section__item:hover .world-section__media {
+  transform: scale(1.04);
+}
+
+@media (hover: none) {
+  .world-section__caption {
+    opacity: 1;
+  }
+}
+
+/*
+ * Desktop: five columns of equal height. Each tile grows in proportion to
+ * its own shape (--item-ratio = height / width), so every column is filled
+ * edge to edge with no gaps.
+ */
+@media (min-width: 48rem) {
+  .world-section__grid {
+    container-type: inline-size;
+    display: flex;
+  }
+
+  .world-section__column {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    height: calc((100cqw - 8px) / 5 * 5.85);
+  }
+
+  .world-section__item {
+    flex: var(--item-ratio, 1.25) 1 0;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+}

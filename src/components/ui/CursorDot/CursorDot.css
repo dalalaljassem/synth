@@ -1,0 +1,58 @@
+/* Positioned by JS (transform on .cursor-dot); size/state animate on the body */
+.cursor-dot {
+  --dot-size: 0.75rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: calc(var(--z-header) + 20);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.cursor-dot.is-visible {
+  opacity: 1;
+}
+
+.cursor-dot__body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background: var(--cursor-accent, var(--color-lime)); /* acid lime, or the page's sub-brand colour */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08); /* keeps it visible on pale lime-ish photos */
+  transform: translate(-50%, -50%) scale(1);
+  transition:
+    transform 450ms var(--ease-out),
+    width 450ms var(--ease-out),
+    height 450ms var(--ease-out);
+}
+
+/* Over links and buttons: a bigger dot */
+.cursor-dot.is-hovering .cursor-dot__body {
+  transform: translate(-50%, -50%) scale(3.2);
+}
+
+/* Over elements with data-cursor: a disc carrying a label */
+.cursor-dot.has-label .cursor-dot__body {
+  width: 5.5rem;
+  height: 5.5rem;
+  background: var(--cursor-accent, var(--color-lime));
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.cursor-dot__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-black);
+}
+
+.cursor-dot.is-pressed .cursor-dot__body {
+  transform: translate(-50%, -50%) scale(0.7);
+}

@@ -283,7 +283,7 @@ export const projects = [
     status: 'published',
     textTone: 'light',
     background: '#5b4833',
-    logo: logoFor('principale', 'Principale', 1200, 356),
+    logo: { ...logoFor('principale', 'Principale', 1200, 356), tone: 'light' },
     description: 
       'Inspired by Italian chiaroscuro, Ombra di Limone transforms PRINCIPALE’s seasonal menu into intimate, painterly still lifes. Dramatic shadows, warm light, and citrus accents turn each dish into a work of art.',
     palette: PRINCIPALE_PALETTE,
@@ -382,7 +382,7 @@ export const projects = [
     status: 'published',
     textTone: 'light',
     background: '#b19e90',
-    logo: logoFor('bunboy', 'Bunboy', 1200, 333),
+    logo: { ...logoFor('bunboy', 'Bunboy', 1200, 333), tone: 'light' },
     description: 
       'Bunboy’s playful identity comes to life through oversized toast lettering, glazed cinnamon buns and slow coffee mornings. Warm, crumbly textures and a cheeky mascot keep every frame full of character.',
     palette: BUNBOY_PALETTE,
@@ -561,3 +561,13 @@ export const projects = [
     ),
   },
 ];
+
+// Trial of the horizontal gallery (slides move left/right on desktop,
+// scroll down on mobile). Same photos and copy as Marzook.
+const marzook = projects.find((project) => project.slug === 'marzook');
+projects.push({
+  ...marzook,
+  slug: 'project-test',
+  name: 'Project Test',
+  layout: 'horizontal', // 'vertical' (default) | 'horizontal'
+});

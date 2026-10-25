@@ -27,3 +27,66 @@
     column-gap: var(--space-9);
   }
 }
+
+/* Process alone (Services moved to its own black section): one full-width column */
+.home-page__capabilities--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Services + Process share one continuous black band (no white gap between) */
+.home-page__dark-band {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #000000;
+  color: var(--color-white);
+}
+
+/* Contact as the black footer */
+.home-page__band-contact {
+  padding-block: var(--space-6) var(--space-10);
+}
+
+/* 3D blob layer: covers the full first screen (edge to edge, under the header) */
+.home-page__intro {
+  position: relative;
+}
+
+.home-page__intro > :not(.home-page__blob) {
+  position: relative;
+  z-index: 1;
+}
+
+.spline-scene.home-page__blob {
+  inset: auto;
+  top: calc(-1 * var(--header-height));
+  left: 50%;
+  width: 100vw;
+  height: 100svh;
+  z-index: 0;
+  transform: translateX(-50%);
+}
+
+/* Categories inside the black band: same outlined theme as Services */
+.home-page__band-categories {
+  padding-block: var(--space-9) 0;
+}
+
+.home-page__dark-band .morse-divider__label {
+  background: #000000;
+  color: var(--color-white);
+}
+
+.home-page__dark-band .category-section__panel {
+  background: #000000;
+}
+
+.home-page__dark-band .category-section__sleeve {
+  border: 1px solid rgba(255, 255, 255, 0.62);
+}
+
+/* Full-bleed pieces (statement tape, 3D layer) are clipped at the screen edge,
+   never causing sideways scroll. `clip` keeps the sticky header working. */
+.home-page {
+  overflow-x: clip;
+}

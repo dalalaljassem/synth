@@ -1,15 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { SiteHeader } from '@/components/layout/SiteHeader';
-import { MorseDivider } from '@/components/ui/MorseDivider';
 import { Icon } from '@/components/ui/Icon';
+import { SmartImage } from '@/components/ui/SmartImage';
 import { ProjectBrand } from '@/components/project/ProjectBrand';
-import { ProjectSlide } from '@/components/project/ProjectSlide';
-import { SlideIndicator } from '@/components/project/SlideIndicator';
-import { ProjectInfo } from '@/components/project/ProjectInfo';
+import { ColorPalette } from '@/components/project/ColorPalette';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { useMenu } from '@/context/MenuContext';
 import { useAsyncData } from '@/hooks/useAsyncData';
-import { useActiveSlide } from '@/hooks/useActiveSlide';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getProjectBySlug, getSiteContent } from '@/services/contentService';
 import './ProjectPage.css';
@@ -25,70 +22,58 @@ export function ProjectPage() {
   return <ProjectView key={slug} project={project.data} site={site.data} />;
 }
 
+/**
+ * Project page:
+ * 1. Intro screen on white — client logo, concept and colours.
+ * 2. Gallery — images only: a 3-column grid on desktop,
+ *    full-screen images scrolling down on mobile.
+ */
 function ProjectView({ project, site }) {
   const { openMenu } = useMenu();
-  const { containerRef, registerSlide, activeIndex, scrollToSlide } = useActiveSlide(
-    project.slides.length,
-  );
   useDocumentTitle(project.name);
-
-  const activeSlide = project.slides[activeIndex] ?? project.slides[0];
-  const palette = activeSlide?.palette ?? project.palette;
-  const caption = activeSlide?.caption ?? project.description;
-  const showCaption = activeSlide?.showCaption ?? true;
-  const tone = activeSlide?.textTone ?? project.textTone;
+  const imageCount = String(project.slides.length).padStart(2, '0');
 
   return (
-    <div
-      className={`project-page project-page--tone-${tone}`}
-      style={{ '--project-background': project.background }}
-    >
-      <SiteHeader logo={site.brand.logo} variant="overlay" tone={tone} />
+    <div className="project-page">
+      <SiteHeader logo={site.brand.logo} variant="overlay" tone="dark" />
 
       <main id="main" className="project-page__main">
-        <div className="project-page__masthead">
-          <MorseDivider code={site.morseCode} tone={tone === 'light' ? 'light' : 'dark'} />
-          <ProjectBrand name={project.name} logo={project.logo} variant={activeSlide?.logoVariant} />
-        </div>
-
-        <div
-          ref={containerRef}
-          className="project-page__slides"
-          tabIndex={0}
-          aria-label={`${project.name} gallery`}
+        <section
+          className={`project-intro ${project.logo?.tone === 'light' ? 'project-intro--logo-light' : ''}`.trim()}
+          aria-label={`${project.name} — concept`}
         >
+
+          <div className="project-intro__body">
+            <ProjectBrand name={project.name} logo={project.logo} />
+            <p className="project-intro__concept">{project.description}</p>
+            <ColorPalette colors={project.palette} />
+          </div>
+
+          <p className="project-intro__hint">
+            <span>({imageCount}) Images</span>
+            <span aria-hidden="true">Scroll ↓</span>
+          </p>
+        </section>
+
+        <section className="project-gallery" aria-label={`${project.name} images`}>
           {project.slides.map((slide, index) => (
-            <ProjectSlide
-              key={slide.id}
-              ref={registerSlide(index)}
-              slide={slide}
-              index={index}
-              total={project.slides.length}
-              projectName={project.name}
-              isPriority={index === 0}
-            />
+            <figure key={slide.id} className="project-gallery__item">
+              <SmartImage
+                className="project-gallery__image"
+                src={slide.image}
+                alt={slide.alt || `${project.name} — image ${index + 1} of ${project.slides.length}`}
+                style={{ objectPosition: slide.focus }}
+                loading={index < 3 ? 'eager' : 'lazy'}
+              />
+            </figure>
           ))}
-        </div>
-
-        <SlideIndicator
-          total={project.slides.length}
-          activeIndex={activeIndex}
-          onSelect={scrollToSlide}
-        />
-
-        <footer className="project-page__footer">
-          <ProjectInfo
-            palette={palette}
-            description={caption}
-            showCaption={showCaption}
-          />
-          <MorseDivider code={site.morseCode} tone={tone === 'light' ? 'light' : 'dark'} />
-          <button type="button" className="project-page__back" onClick={openMenu}>
-            <Icon name="arrow-left" />
-            <span className="visually-hidden">All projects</span>
-          </button>
-        </footer>
+        </section>
       </main>
+
+      <button type="button" className="project-page__back" onClick={openMenu}>
+        <Icon name="arrow-left" />
+        <span className="visually-hidden">All projects</span>
+      </button>
     </div>
   );
 }

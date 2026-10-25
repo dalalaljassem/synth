@@ -1,9 +1,16 @@
 .hero-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
   padding-block: clamp(2.5rem, 1.5rem + 5vw, 6rem) var(--space-6);
+}
+
+.hero-section__title,
+.hero-section__location {
+  position: relative;
+  z-index: 1; /* above the 3D blob */
 }
 
 .hero-section__title {
@@ -17,7 +24,7 @@
 }
 
 .hero-section__logo {
-  width: min(84%, 44rem);
+  width: min(72%, 34rem); /* the new mark is taller than the old display wordmark */
 }
 
 .hero-section__tagline {

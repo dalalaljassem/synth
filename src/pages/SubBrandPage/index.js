@@ -1,0 +1,1 @@
+export { SubBrandPage } from './SubBrandPage';
