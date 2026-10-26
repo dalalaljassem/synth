@@ -57,7 +57,7 @@
 .statement-section__tape--flat-1  { top: 30%; left: -22%; rotate: 5deg;   z-index: 3; } /* orange */
 .statement-section__tape--steep-1 { top: 47%; left: -34%; rotate: -23deg;  z-index: 5; } /* lime */
 .statement-section__tape--flat-2  { top: 50%; left: -14%; rotate: 14deg; z-index: 1; } /* purple */
-.statement-section__tape--steep-2 { top: 57%; left: -12%; width: 165%; rotate: -32deg; z-index: 4; } /* teal */
+.statement-section__tape--steep-2 { top: 53%; left: -29%; width: 200%; rotate: -32deg; z-index: 4; } /* teal */
 
 /* Desktop: heading and paragraph side by side, the tape runs across beneath them */
 @media (min-width: 64rem) {

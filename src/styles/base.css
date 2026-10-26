@@ -15,6 +15,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* past the black footer, pull-to-bounce shows black, not white */
+  background-color: var(--color-black);
+  overscroll-behavior-y: none;
 }
 
 body {
