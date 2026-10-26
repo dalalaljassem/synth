@@ -13,11 +13,12 @@ export function StatementSection({ heading, body }) {
         <Icon name="crosshair" className="statement-section__mark" />
       </div>
 
-      {/* Lime, orange and purple tapes crossing each other */}
+      {/* As sketched: four full-width tapes, two almost flat and two climbing, woven over and under */}
       <div className="statement-section__tapes">
-        <BrandTape name="formed" className="statement-section__tape statement-section__tape--1" />
-        <BrandTape name="objects" reverse className="statement-section__tape statement-section__tape--2" />
-        <BrandTape name="systems" className="statement-section__tape statement-section__tape--3" />
+        <BrandTape name="objects" className="statement-section__tape statement-section__tape--flat-1" />
+        <BrandTape name="systems" reverse className="statement-section__tape statement-section__tape--flat-2" />
+        <BrandTape name="formed" className="statement-section__tape statement-section__tape--steep-1" />
+        <BrandTape name="build" reverse className="statement-section__tape statement-section__tape--steep-2" />
       </div>
 
       <p className="statement-section__body">{body}</p>

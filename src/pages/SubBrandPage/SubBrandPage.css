@@ -81,6 +81,28 @@
   line-height: 1.45;
 }
 
+/* Disciplines: one run of mono text, '//' between items */
+.sub-brand-page__disciplines {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 46rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+.sub-brand-page__disciplines li:not(:last-child)::after {
+  content: '//';
+  margin-inline: 0.6em;
+  color: var(--color-black);
+  opacity: 0.35;
+}
+
 .sub-brand-page__meta {
   display: inline-flex;
   align-items: center;

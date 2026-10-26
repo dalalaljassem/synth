@@ -34,25 +34,30 @@
   text-align: justify;
 }
 
-/* ---------- Tapes: crossing in an X, bleeding past the screen edges ---------- */
+/* ---------- Tapes (as sketched) ----------
+   A loose, off-centre crisscross: four full-width strips at uneven angles,
+   clustered across the middle with blank space above and below.
+   Orange + purple run almost horizontal; lime + teal cut up steeply from left
+   to right (and cross each other). Stacking, bottom to top: orange, lime,
+   purple, teal — so each passes over some tapes and under others. */
 .statement-section__tapes {
   position: relative;
   width: calc(100% + 2 * var(--gutter));
-  height: 11rem;
+  height: 23rem;
   margin-inline: calc(-1 * var(--gutter));
+  margin-bottom: 2rem; /* clear of the paragraph below the steep tapes' low ends */
 }
 
 .statement-section__tape {
   position: absolute;
-  top: 50%;
-  left: -15%;
-  width: 130%;
+  width: 140%;
   translate: 0 -50%;
 }
 
-.statement-section__tape--1 { rotate: -9deg; z-index: 1; }
-.statement-section__tape--2 { rotate: 9deg; z-index: 2; }
-.statement-section__tape--3 { rotate: 0deg; z-index: 3; }
+.statement-section__tape--flat-1  { top: 30%; left: -22%; rotate: 5deg;   z-index: 3; } /* orange */
+.statement-section__tape--steep-1 { top: 47%; left: -34%; rotate: -23deg;  z-index: 5; } /* lime */
+.statement-section__tape--flat-2  { top: 50%; left: -14%; rotate: 14deg; z-index: 1; } /* purple */
+.statement-section__tape--steep-2 { top: 57%; left: -12%; width: 165%; rotate: -32deg; z-index: 4; } /* teal */
 
 /* Desktop: heading and paragraph side by side, the tape runs across beneath them */
 @media (min-width: 64rem) {
@@ -80,10 +85,14 @@
   .statement-section__tapes {
     grid-area: tape;
     width: 100vw;
-    height: 16rem;
+    height: 27rem;
     margin-inline: calc(50% - 50vw);
+    margin-bottom: 0;
   }
 
-  .statement-section__tape--1 { rotate: -6deg; }
-  .statement-section__tape--2 { rotate: 6deg; }
+  .statement-section__tape { width: 120%; }
+  .statement-section__tape--flat-1  { top: 30%; left: -14%; rotate: 2.5deg; }
+  .statement-section__tape--steep-1 { top: 47%; left: -16%; rotate: -11deg; }
+  .statement-section__tape--flat-2  { top: 52%; left: -6%;  rotate: 9deg; }
+  .statement-section__tape--steep-2 { top: 56%; left: -8%; width: 130%; rotate: -15.5deg; }
 }

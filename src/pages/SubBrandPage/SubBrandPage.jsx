@@ -55,6 +55,13 @@ export function SubBrandPage({ brand }) {
                 <SynthMark name={brand} className="sub-brand-page__logo" />
               </h1>
               <p className="sub-brand-page__description">{sub.description}</p>
+              {content.disciplines?.[brand] && (
+                <ul className="sub-brand-page__disciplines" aria-label="Disciplines">
+                  {content.disciplines[brand].map((d) => (
+                    <li key={d}>{d}</li>
+                  ))}
+                </ul>
+              )}
               <p className="sub-brand-page__meta">{sub.meta}</p>
             </div>
             <div className="sub-brand-page__art">

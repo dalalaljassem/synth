@@ -157,6 +157,14 @@ export const siteContent = {
     ],
   },
 
+  // What each sub-brand does — shown as a '//' list on its page.
+  disciplines: {
+    formed: ['visual culture', 'experimental media', 'digital storytelling', 'ai-generated imagery', 'visual production', 'creative experimentation', 'motion design', 'art direction', 'editorial campaigns', 'digital experiences', 'visual narratives', '3d visualization', 'conceptual imagery', 'moving images', 'emerging technologies'],
+    build: ['spatial design', 'immersive environments', 'installations', 'interior design', 'experiential spaces', 'exhibition design', 'temporary structures', 'spatial storytelling', 'set design', 'pop-up experiences', 'retail environments', 'conceptual spaces', 'material exploration', 'environmental graphics', 'spatial interventions'],
+    systems: ['brand strategy', 'identity systems', 'creative direction', 'brand positioning', 'visual identity', 'strategic thinking', 'brand architecture', 'research & development', 'conceptual frameworks', 'communication design', 'brand narratives', 'design systems', 'cultural research', 'creative consultancy', 'brand development'],
+    objects: ['product design', 'furniture design', 'material exploration', 'collectible objects', 'functional art', 'object experimentation', 'industrial design', 'conceptual products', 'sculptural forms', 'everyday objects', 'physical artifacts', 'form development', 'object visualization', 'material innovation', 'experimental fabrication'],
+  },
+
   // Sub-brand pages (/formed, /objects). Descriptions are DRAFT copy.
   // `showcase: 'home'` reuses the Selected work columns below.
   subBrands: {
