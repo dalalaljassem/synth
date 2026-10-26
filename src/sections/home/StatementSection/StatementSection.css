@@ -34,18 +34,25 @@
   text-align: justify;
 }
 
-/* ---------- Tapes: three parallel strips with space between, tilted
-   together and bleeding past the screen edges ---------- */
+/* ---------- Tapes: crossing in an X, bleeding past the screen edges ---------- */
 .statement-section__tapes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  width: calc(100% + 2 * var(--gutter) + 3rem);
-  margin-inline: calc(-1 * var(--gutter) - 1.5rem);
-  padding-block: 1.4rem;
-  margin-block: -1.5rem 2.4rem; /* tuck under the heading, clear the paragraph's tilted corner */
-  transform: rotate(-4deg);
+  position: relative;
+  width: calc(100% + 2 * var(--gutter));
+  height: 11rem;
+  margin-inline: calc(-1 * var(--gutter));
 }
+
+.statement-section__tape {
+  position: absolute;
+  top: 50%;
+  left: -15%;
+  width: 130%;
+  translate: 0 -50%;
+}
+
+.statement-section__tape--1 { rotate: -9deg; z-index: 1; }
+.statement-section__tape--2 { rotate: 9deg; z-index: 2; }
+.statement-section__tape--3 { rotate: 0deg; z-index: 3; }
 
 /* Desktop: heading and paragraph side by side, the tape runs across beneath them */
 @media (min-width: 64rem) {
@@ -72,11 +79,11 @@
 
   .statement-section__tapes {
     grid-area: tape;
-    gap: 1.2rem;
-    width: 108vw; /* wider than the screen so the tilted ends never show */
-    margin-inline: calc(50% - 54vw);
-    padding-block: 2rem;
-    margin-block: 0;
-    transform: rotate(-2.5deg);
+    width: 100vw;
+    height: 16rem;
+    margin-inline: calc(50% - 50vw);
   }
+
+  .statement-section__tape--1 { rotate: -6deg; }
+  .statement-section__tape--2 { rotate: 6deg; }
 }

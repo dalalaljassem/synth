@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { useScrollProgress } from '@/hooks/useScrollProgress';
 import { MorseDivider } from '@/components/ui/MorseDivider';
 import './ProcessLayers.css';
 
@@ -20,12 +21,23 @@ const rhombus = (y) => `${CX - HW},${y} ${CX},${y - HH} ${CX + HW},${y} ${CX},${
  */
 export function ProcessLayers({ id = 'process', label, heading, items, morseCode }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef(null);
+  const artRef = useRef(null);
+
+  // Scrolling through the section spreads the stack apart and walks the
+  // highlight down the steps (hover / tap still pick a step directly)
+  useScrollProgress(sectionRef, (progress) => {
+    const local = Math.min(1, Math.max(0, (progress - 0.2) / 0.55)); // 0→1 while centred on screen
+    artRef.current?.style.setProperty('--spread', Math.sin(local * Math.PI).toFixed(3));
+    const step = Math.min(items.length - 1, Math.floor(local * items.length));
+    setActiveIndex((current) => (current === step ? current : step));
+  });
   const active = items[activeIndex];
   const number = (index) => String(index + 1).padStart(2, '0');
   const viewH = TOP + GAP * (items.length - 1) + HH + 40;
 
   return (
-    <section id={id} className="process-layers" aria-labelledby={`${id}-heading`}>
+    <section ref={sectionRef} id={id} className="process-layers" aria-labelledby={`${id}-heading`}>
       <div className="container process-layers__inner">
         <MorseDivider code={morseCode} label={label} labelId={`${id}-heading`} tone="light" />
 
@@ -49,6 +61,7 @@ export function ProcessLayers({ id = 'process', label, heading, items, morseCode
           </div>
 
           <svg
+            ref={artRef}
             className="process-layers__art"
             viewBox={`0 0 ${VIEW_W} ${viewH}`}
             role="group"
@@ -72,7 +85,7 @@ export function ProcessLayers({ id = 'process', label, heading, items, morseCode
               const y = TOP + GAP * index;
               const isActive = index === activeIndex;
               return (
-                <g key={item.id} className="process-layers__float" style={{ '--i': index }}>
+                <g key={item.id} className="process-layers__float" style={{ '--i': index, '--offset': index - (items.length - 1) / 2 }}>
                   <g
                     className={`process-layers__layer ${isActive ? 'is-active' : ''}`.trim()}
                     role="button"

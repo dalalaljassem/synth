@@ -107,6 +107,12 @@
   text-transform: uppercase;
 }
 
+/* Scroll spreads the stack: each layer moves away from the middle by --spread */
+.process-layers__float {
+  translate: 0 calc(var(--offset, 0) * var(--spread, 0) * 34px);
+  transition: translate 300ms var(--ease-out);
+}
+
 /* Gentle ambient drift, each layer slightly out of phase */
 .process-layers__float {
   animation: layers-float 6s ease-in-out infinite alternate;

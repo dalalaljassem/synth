@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SynthMark } from '@/components/ui/SynthMark';
+import { useScrollProgress } from '@/hooks/useScrollProgress';
 import { useMenu } from '@/context/MenuContext';
 import './CategorySection.css';
 
@@ -15,6 +16,12 @@ export function CategorySection({ label, title, items }) {
   const navigate = useNavigate();
   const active = items.find((item) => item.id === activeId) ?? items[0];
   const discRef = useRef(null);
+  const recordRef = useRef(null);
+  const panelRef = useRef(null);
+  // The record turns as the page scrolls past it (about one and a half turns)
+  useScrollProgress(panelRef, (progress) => {
+    recordRef.current?.style.setProperty('--scroll-turn', `${(progress * 540).toFixed(1)}deg`);
+  });
   const hoverTimer = useRef(0);
   // Hover only selects once the pointer rests on a track, so passing over
   // other tracks on the way to the Enter link doesn't change the selection
@@ -43,7 +50,7 @@ export function CategorySection({ label, title, items }) {
   return (
     <section className="category-section" aria-labelledby="category-heading">
 
-      <div className="category-section__panel" style={{ '--category-color': active.color }}>
+      <div ref={panelRef} className="category-section__panel" style={{ '--category-color': active.color }}>
         <div className="category-section__tracks">
           <h2 id="category-heading" className="category-section__title">
             {title}
@@ -79,12 +86,14 @@ export function CategorySection({ label, title, items }) {
           <CategoryAction item={active} onOpenMenu={openMenu} />
         </div>
 
-        <div className="category-section__record" aria-hidden="true">
-          <div ref={discRef} className="category-section__disc">
-            <span className="category-section__disc-flow" />
-          </div>
-          <div className="category-section__label">
-            <span className="category-section__label-dot" />
+        <div ref={recordRef} className="category-section__record" aria-hidden="true">
+          <div className="category-section__spin">
+            <div ref={discRef} className="category-section__disc">
+              <span className="category-section__disc-flow" />
+            </div>
+            <div className="category-section__label">
+              <span className="category-section__label-dot" />
+            </div>
           </div>
         </div>
 

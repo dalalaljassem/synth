@@ -127,6 +127,13 @@
   transform: translate(50%, -50%);
 }
 
+/* Inner layer that spins in place as the page scrolls (the record itself stays put) */
+.category-section__spin {
+  position: absolute;
+  inset: 0;
+  rotate: var(--scroll-turn, 0deg);
+}
+
 .category-section__disc {
   position: absolute;
   inset: 0;
