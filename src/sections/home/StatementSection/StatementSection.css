@@ -45,7 +45,8 @@
   width: calc(100% + 2 * var(--gutter));
   height: 23rem;
   margin-inline: calc(-1 * var(--gutter));
-  margin-bottom: 2rem; /* clear of the paragraph below the steep tapes' low ends */
+  margin-bottom: 2rem;
+  /* clear of the paragraph below the steep tapes' low ends */
 }
 
 .statement-section__tape {
@@ -54,10 +55,39 @@
   translate: 0 -50%;
 }
 
-.statement-section__tape--flat-1  { top: 30%; left: -22%; rotate: 5deg;   z-index: 3; } /* orange */
-.statement-section__tape--steep-1 { top: 47%; left: -34%; rotate: -23deg;  z-index: 5; } /* lime */
-.statement-section__tape--flat-2  { top: 50%; left: -14%; rotate: 14deg; z-index: 1; } /* purple */
-.statement-section__tape--steep-2 { top: 53%; left: -29%; width: 200%; rotate: -32deg; z-index: 4; } /* teal */
+.statement-section__tape--flat-1 {
+  top: 30%;
+  left: -22%;
+  rotate: 5deg;
+  z-index: 3;
+}
+
+/* orange */
+.statement-section__tape--steep-1 {
+  top: 47%;
+  left: -34%;
+  rotate: -23deg;
+  z-index: 5;
+}
+
+/* lime */
+.statement-section__tape--flat-2 {
+  top: 50%;
+  left: -14%;
+  rotate: 14deg;
+  z-index: 1;
+}
+
+/* purple */
+.statement-section__tape--steep-2 {
+  top: 55%;
+  left: -29%;
+  width: 200%;
+  rotate: 352deg;
+  z-index: 4;
+}
+
+/* teal */
 
 /* Desktop: heading and paragraph side by side, the tape runs across beneath them */
 @media (min-width: 64rem) {
@@ -71,8 +101,13 @@
     row-gap: var(--space-8);
   }
 
-  .statement-section__heading-wrap { grid-area: heading; }
-  .statement-section__body { grid-area: body; }
+  .statement-section__heading-wrap {
+    grid-area: heading;
+  }
+
+  .statement-section__body {
+    grid-area: body;
+  }
 
   .statement-section__heading {
     font-size: var(--text-heading-1);
@@ -90,9 +125,32 @@
     margin-bottom: 0;
   }
 
-  .statement-section__tape { width: 120%; }
-  .statement-section__tape--flat-1  { top: 30%; left: -14%; rotate: 2.5deg; }
-  .statement-section__tape--steep-1 { top: 47%; left: -16%; rotate: -11deg; }
-  .statement-section__tape--flat-2  { top: 52%; left: -6%;  rotate: 9deg; }
-  .statement-section__tape--steep-2 { top: 56%; left: -8%; width: 130%; rotate: -15.5deg; }
+  .statement-section__tape {
+    width: 120%;
+  }
+
+  .statement-section__tape--flat-1 {
+    top: 30%;
+    left: -14%;
+    rotate: 2.5deg;
+  }
+
+  .statement-section__tape--steep-1 {
+    top: 47%;
+    left: -16%;
+    rotate: -11deg;
+  }
+
+  .statement-section__tape--flat-2 {
+    top: 52%;
+    left: -6%;
+    rotate: 9deg;
+  }
+
+  .statement-section__tape--steep-2 {
+    top: 58%;
+    left: -8%;
+    width: 130%;
+    rotate: 0deg;
+  }
 }
