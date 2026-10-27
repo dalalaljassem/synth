@@ -10,6 +10,22 @@ const TAB_OFFSETS = [6, 58, 30, 64, 14, 46, 36];
  * Hover a tab: the card lifts. Click it: the tall card at the back shows
  * that service. Items come from siteContent.services.
  */
+/* Each tab takes a sub-brand colour when selected */
+const COLORS = {
+  lime: { '--tab-color': 'var(--color-formed)', '--tab-ink': 'var(--color-black)' },
+  orange: { '--tab-color': 'var(--color-objects)', '--tab-ink': 'var(--color-black)' },
+  teal: { '--tab-color': 'var(--color-build)', '--tab-ink': 'var(--color-white)' },
+  purple: { '--tab-color': 'var(--color-systems)', '--tab-ink': 'var(--color-white)' },
+};
+const TAB_COLORS = {
+  architecture: COLORS.teal,
+  'brand-strategy': COLORS.purple,
+  'creative-direction': COLORS.lime,
+  'content-campaign': COLORS.lime,
+  objects: COLORS.orange,
+};
+const tabColor = (id) => TAB_COLORS[id] ?? COLORS.lime;
+
 export function ServicesFolder({ id = 'services', label, items, morseCode, logo }) {
   const [activeId, setActiveId] = useState(items[0]?.id);
   const [pulledId, setPulledId] = useState(null);
@@ -36,7 +52,7 @@ export function ServicesFolder({ id = 'services', label, items, morseCode, logo 
           id={`${id}-panel`}
           aria-labelledby={`${id}-tab-${active.id}`}
         >
-          <span className="services-folder__tab services-folder__tab--feature" style={{ '--tab-left': '40%' }}>
+          <span className="services-folder__tab services-folder__tab--feature" style={{ '--tab-left': '40%', ...tabColor(active.id) }}>
             <span>{number(activeIndex)}</span>
             <span>{active.title}</span>
           </span>
@@ -63,7 +79,7 @@ export function ServicesFolder({ id = 'services', label, items, morseCode, logo 
                 ]
                   .filter(Boolean)
                   .join(' ')}
-                style={{ '--i': index, '--tab-left': `${TAB_OFFSETS[index % TAB_OFFSETS.length]}%` }}
+                style={{ '--i': index, '--tab-left': `${TAB_OFFSETS[index % TAB_OFFSETS.length]}%`, ...tabColor(item.id) }}
                 onAnimationEnd={() => setPulledId(null)}
               >
                 <button

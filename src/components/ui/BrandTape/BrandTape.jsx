@@ -1,12 +1,12 @@
 import { SynthMark } from '@/components/ui/SynthMark';
 import './BrandTape.css';
 
-/* Print on each tape: number, count, and the brand's logo */
+/* Print on each tape: the brand's logo, then a few of its disciplines */
 const PRINT = {
-  formed: { number: '01', meta: '(21)' },
-  objects: { number: '02', meta: '(01)' },
-  build: { number: '03', meta: '(WIP)' },
-  systems: { number: '04', meta: '(WIP)' },
+  formed: ['art direction', 'motion design', 'ai-generated imagery', 'visual culture'],
+  objects: ['product design', 'furniture design', 'collectible objects', 'functional art'],
+  build: ['spatial design', 'installations', 'exhibition design', 'set design'],
+  systems: ['brand strategy', 'identity systems', 'creative direction', 'visual identity'],
 };
 
 /**
@@ -16,16 +16,20 @@ const PRINT = {
  * reverse: scroll the other way · className positions/tilts it
  */
 export function BrandTape({ name, reverse = false, className = '' }) {
-  const { number, meta } = PRINT[name] ?? PRINT.formed;
+  const words = PRINT[name] ?? PRINT.formed;
   const run = (copy) => (
     <span className="brand-tape__run" key={copy}>
       {[0, 1, 2].map((i) => (
         <span className="brand-tape__unit" key={i}>
           <SynthMark name={name} className="brand-tape__logo" />
-          <span className="brand-tape__small">{number}</span>
-          <span className="brand-tape__small">{meta}</span>
-          <span className="brand-tape__small">extract</span>
-          <span className="brand-tape__small">reframe</span>
+          <span className="brand-tape__words">
+            {words.map((word, w) => (
+              <span className="brand-tape__small" key={word}>
+                {w > 0 && <span className="brand-tape__sep">//</span>}
+                {word}
+              </span>
+            ))}
+          </span>
         </span>
       ))}
     </span>

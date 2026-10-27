@@ -86,8 +86,8 @@
 
 .services-folder__tab--feature {
   cursor: default;
-  background: var(--color-lime);
-  color: var(--color-black);
+  background: var(--tab-color, var(--color-lime));
+  color: var(--tab-ink, var(--color-black));
 }
 
 .services-folder__feature-body {
@@ -172,10 +172,10 @@
   color: var(--color-white);
 }
 
-/* Selected: lime tab */
+/* Selected: the tab takes its own sub-brand colour */
 .services-folder__card.is-active .services-folder__tab {
-  background: var(--color-lime);
-  color: var(--color-black);
+  background: var(--tab-color, var(--color-lime));
+  color: var(--tab-ink, var(--color-black));
 }
 
 /* Click: the card is pulled up and dropped back */

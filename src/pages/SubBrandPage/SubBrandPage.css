@@ -4,6 +4,16 @@
   gap: var(--section-gap);
 }
 
+/* The objects table runs straight into the black footer: the table grows
+   to fill the usual gap, so the footer keeps its place and size */
+.sub-brand-page .object-field {
+  --field-extra: var(--section-gap);
+}
+
+.object-field + .sub-brand-page__footer {
+  margin-top: calc(-1 * var(--section-gap));
+}
+
 .sub-brand-page__intro {
   display: flex;
   flex-direction: column;

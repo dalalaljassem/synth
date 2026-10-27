@@ -52,6 +52,16 @@
   white-space: nowrap;
 }
 
+.brand-tape__words {
+  display: flex;
+  align-items: center;
+}
+
+.brand-tape__sep {
+  margin-inline: 0.8em;
+  opacity: 0.55;
+}
+
 @media (min-width: 64rem) {
   .brand-tape {
     --tape-h: 4.4rem;

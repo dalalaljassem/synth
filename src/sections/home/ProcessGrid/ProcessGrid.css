@@ -1,0 +1,236 @@
+/* Process, as outlined cards on black (reference: wireframe cards that draw
+   themselves on hover). Sharp corners, white hairlines, one lime dot. */
+.process-grid {
+  --grid-line: rgba(255, 255, 255, 0.62);
+  --grid-faint: rgba(255, 255, 255, 0.22);
+  --grid-cell: rgba(255, 255, 255, 0.07);
+  padding-block: var(--space-6) var(--space-11);
+  background: #000000;
+  color: var(--color-white);
+}
+
+.process-grid .morse-divider__label {
+  background: #000000;
+  color: var(--color-white);
+}
+
+.process-grid__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* ---------- The row of cards ---------- */
+.process-grid__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--grid-line);
+}
+
+.process-grid__card {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+.process-grid__card + .process-grid__card {
+  border-top: 1px solid var(--grid-line);
+}
+
+.process-grid__card:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-white);
+}
+
+/* Label row: "● RESEARCH            [01]" */
+.process-grid__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.process-grid__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.process-grid__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--color-lime);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
+.process-grid__number {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ---------- Drawing area ---------- */
+.process-grid__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 18rem;
+  border-bottom: 1px dashed var(--grid-faint);
+}
+
+/* faint graph-paper grid, shown when the card is active */
+.process-grid__stage::before {
+  content: '';
+  position: absolute;
+  inset: var(--space-4);
+  background-image:
+    linear-gradient(var(--grid-cell) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-cell) 1px, transparent 1px);
+  background-size: 1.25rem 1.25rem;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+
+/* "+" registration marks in the corners */
+.process-grid__corner {
+  position: absolute;
+  width: 0.6rem;
+  height: 0.6rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.process-grid__corner::before,
+.process-grid__corner::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.process-grid__corner::before { top: 50%; left: 0; width: 100%; height: 1px; }
+.process-grid__corner::after { left: 50%; top: 0; height: 100%; width: 1px; }
+
+.process-grid__corner--tl { top: calc(var(--space-4) - 0.3rem); left: calc(var(--space-4) - 0.3rem); }
+.process-grid__corner--tr { top: calc(var(--space-4) - 0.3rem); right: calc(var(--space-4) - 0.3rem); }
+.process-grid__corner--bl { bottom: calc(var(--space-4) - 0.3rem); left: calc(var(--space-4) - 0.3rem); }
+.process-grid__corner--br { bottom: calc(var(--space-4) - 0.3rem); right: calc(var(--space-4) - 0.3rem); }
+
+.process-grid__art {
+  position: relative;
+  width: auto;
+  height: 15rem;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* Idle: thin and faint. Active: bright, and each line traces itself in turn. */
+.process-grid__stroke {
+  fill: none;
+  stroke: var(--grid-faint);
+  stroke-width: 1;
+  stroke-dasharray: none;
+  transition: stroke 300ms var(--ease-out);
+}
+
+.process-grid__stroke.is-hidden {
+  stroke-dasharray: 0.025 0.025;
+}
+
+.process-grid__card.is-active .process-grid__stroke {
+  stroke: var(--color-white);
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  animation: process-grid-draw 900ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+.process-grid__card.is-active .process-grid__stroke.is-hidden {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-dasharray: 0.025 0.025;
+  animation-name: process-grid-fade;
+}
+
+.process-grid__card.is-active .process-grid__stage::before,
+.process-grid__card.is-active .process-grid__corner {
+  opacity: 1;
+}
+
+.process-grid__card.is-active .process-grid__dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes process-grid-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes process-grid-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- Copy ---------- */
+.process-grid__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+.process-grid__title {
+  margin: 0;
+  font-size: var(--text-heading-2);
+  font-weight: var(--weight-medium, 500);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.process-grid__text {
+  margin: 0;
+  max-width: 36ch;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+
+/* Desktop: all five cards side by side, hairlines between them */
+@media (min-width: 64rem) {
+  .process-grid__list {
+    grid-template-columns: repeat(var(--cards, 5), minmax(0, 1fr));
+  }
+
+  .process-grid__card + .process-grid__card {
+    border-top: 0;
+    border-left: 1px solid var(--grid-line);
+  }
+
+  .process-grid__stage {
+    height: auto;
+    aspect-ratio: 1 / 1.1;
+  }
+
+  .process-grid__art {
+    width: 100%;
+    height: auto;
+  }
+
+  .process-grid__title {
+    font-size: clamp(1.125rem, 0.75rem + 0.75vw, 1.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-grid__card.is-active .process-grid__stroke {
+    animation: none;
+  }
+}

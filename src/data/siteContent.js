@@ -184,6 +184,21 @@ export const siteContent = {
       meta: '(01) Project',
       description:
         'Physical products and merchandise pressed with an idea. Everyday objects, reframed into things worth keeping.',
+      // Floating object table (replaces the bento). Images: transparent WebP cut-outs.
+      // `thumb` is the small version scattered on the table, `image` the large one in the panel.
+      field: {
+        label: 'Objects',
+        items: [
+          {
+            id: 'side-chair',
+            name: 'Side Chair',
+            meta: '01',
+            image: '/images/objects/side-chair.webp',
+            thumb: '/images/objects/side-chair-sm.webp',
+            description: 'A low, soft seat on turned wooden feet, with a poured-looking back on a chequered stem. DRAFT copy.',
+          },
+        ],
+      },
       showcase: {
         label: 'Selected work',
         intro: 'Studio Sweat: cards, merchandise and printed matter.',
@@ -308,7 +323,7 @@ export const siteContent = {
       { id: 'email', label: 'info@thisissynth.com', href: 'mailto:info@thisissynth.com' },
       { id: 'instagram', label: '@synth.formed', href: 'https://www.instagram.com/synth.formed/' },
       // TODO: replace placeholder number from the prototype.
-      { id: 'phone', label: '+965 12345678', href: 'tel:+96512345678' },
+      { id: 'phone', label: '+965 99980709', href: 'tel:+96599980709' },
     ],
   },
 };

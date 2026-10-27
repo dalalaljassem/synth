@@ -4,6 +4,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SynthMark } from '@/components/ui/SynthMark';
 import { IsometricArt } from '@/components/art';
 import { ShowcaseSection } from '@/sections/home/ShowcaseSection';
+import { ObjectField } from '@/sections/objects/ObjectField';
 import { ContactSection } from '@/sections/home/ContactSection';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { useAsyncData } from '@/hooks/useAsyncData';
@@ -70,7 +71,12 @@ export function SubBrandPage({ brand }) {
           </section>
         </div>
 
-        <ShowcaseSection morseCode={content.morseCode} {...showcase} />
+        {/* synth.objects: floating object table instead of the bento */}
+        {sub.field ? (
+          <ObjectField {...sub.field} />
+        ) : (
+          <ShowcaseSection morseCode={content.morseCode} {...showcase} />
+        )}
 
         <div className="sub-brand-page__footer">
           <div className="container">

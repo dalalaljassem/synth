@@ -1,0 +1,266 @@
+/* synth.objects field: cut-out objects resting on a pale table, endless in
+   every direction. Sharp corners, black hairlines, orange accent. */
+.object-field {
+  --table: var(--color-white);
+  --ink: var(--color-black);
+  position: relative;
+  height: calc(min(92svh, 60rem) + var(--field-extra, 0px));
+  min-height: 34rem;
+  overflow: hidden;
+  background: var(--table);
+}
+
+.object-field__view {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: pan-y; /* phones: vertical swipes still scroll the page */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.object-field__view.is-dragging {
+  cursor: grabbing;
+}
+
+.object-field__world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ---- One object ---- */
+.object-field__item {
+  position: absolute;
+  translate: -50% -50%;
+  animation: object-field-in 700ms var(--ease-out) both;
+}
+
+.object-field__float {
+  animation: object-field-float var(--float, 6s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+.object-field__float img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  transition: transform 380ms var(--ease-out), filter 380ms var(--ease-out);
+}
+
+.object-field__view:not(.is-dragging) .object-field__item:hover .object-field__float img {
+  transform: translateY(-6px) scale(1.06);
+}
+
+/* "+ Side Chair" tag beside the hovered object */
+.object-field__tag {
+  position: absolute;
+  top: 58%;
+  left: 82%;
+  padding: 0.35rem 0.55rem;
+  background: var(--ink);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: var(--text-footnote);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.object-field__view:not(.is-dragging) .object-field__item:hover {
+  z-index: 3;
+}
+
+.object-field__view:not(.is-dragging) .object-field__item:hover .object-field__tag {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes object-field-float {
+  from { transform: translateY(-4px) rotate(-0.6deg); }
+  to { transform: translateY(4px) rotate(0.6deg); }
+}
+
+@keyframes object-field-in {
+  from { opacity: 0; scale: 0.85; }
+  to { opacity: 1; scale: 1; }
+}
+
+/* ---- Corner labels and controls ---- */
+.object-field__count,
+.object-field__hint {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.object-field__count {
+  position: absolute;
+  top: var(--space-5);
+  left: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.object-field__count::before {
+  content: '';
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--accent, var(--color-objects));
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.object-field__controls {
+  position: absolute;
+  right: var(--gutter);
+  bottom: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.object-field__hint {
+  margin-right: var(--space-3);
+}
+
+.object-field__zoom,
+.object-field__close {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--ink);
+  background: var(--color-white);
+  color: var(--ink);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+
+.object-field__zoom:hover:not(:disabled),
+.object-field__close:hover {
+  background: var(--ink);
+  color: var(--color-white);
+}
+
+.object-field__zoom:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ---- Side panel ---- */
+.object-field__panel {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  border-right: 1px solid var(--ink);
+  background: var(--table);
+  transform: translateX(-101%);
+  transition: transform 620ms var(--ease-out);
+  z-index: 5;
+}
+
+.object-field.has-panel .object-field__panel {
+  transform: none;
+}
+
+.object-field__panel-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-6) var(--gutter);
+  animation: object-field-panel-in 700ms var(--ease-out) both;
+}
+
+.object-field__panel-meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.object-field__panel-title {
+  margin: var(--space-3) 0 0;
+  font-size: clamp(2.75rem, 1.6rem + 5vw, 7rem);
+  font-weight: var(--weight-medium, 500);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.object-field__panel-art {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding-block: var(--space-5);
+}
+
+.object-field__panel-art img {
+  max-width: min(100%, 34rem);
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.object-field__panel-text {
+  max-width: 40ch;
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+
+/* square × sitting on the panel's edge (hidden while the panel is closed) */
+.object-field__close {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--gutter);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out), visibility 0s linear 300ms, background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+
+.object-field.has-panel .object-field__close {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+@keyframes object-field-panel-in {
+  from { opacity: 0; transform: translateX(-2rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (min-width: 64rem) {
+  .object-field__panel {
+    width: 58%;
+  }
+
+  .object-field__close {
+    top: 50%;
+    right: 0;
+    translate: 50% -50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .object-field__item,
+  .object-field__float,
+  .object-field__panel-inner {
+    animation: none;
+  }
+
+  .object-field__panel {
+    transition: none;
+  }
+}

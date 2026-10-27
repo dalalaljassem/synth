@@ -6,7 +6,7 @@ import { HeroSection } from '@/sections/home/HeroSection';
 import { WorldSection } from '@/sections/home/WorldSection';
 import { StatementSection } from '@/sections/home/StatementSection';
 import { ServicesFolder } from '@/sections/home/ServicesFolder';
-import { ProcessLayers } from '@/sections/home/ProcessLayers';
+import { ProcessGrid } from '@/sections/home/ProcessGrid';
 import { CategorySection } from '@/sections/home/CategorySection';
 import { ContactSection } from '@/sections/home/ContactSection';
 import { useAsyncData } from '@/hooks/useAsyncData';
@@ -66,7 +66,7 @@ export function HomePage() {
             <CategorySection morseCode={morseCode} tone="light" {...categories} />
           </div>
           <ServicesFolder id="services" morseCode={morseCode} logo={brand.logo} {...services} />
-          <ProcessLayers id="process" morseCode={morseCode} {...process} />
+          <ProcessGrid id="process" morseCode={morseCode} label={process.label} items={process.items} />
           <div className="container home-page__band-contact">
             <ContactSection morseCode={morseCode} tone="light" {...contact} />
           </div>
