@@ -18,9 +18,19 @@ export function CategorySection({ label, title, items }) {
   const discRef = useRef(null);
   const recordRef = useRef(null);
   const panelRef = useRef(null);
-  // The record turns as the page scrolls past it (about one and a half turns)
+  // The record turns as the page scrolls past it (about one and a half turns),
+  // and steps through the tracks while it's on screen, like the process layers:
+  // formed → objects → build → systems, each change turning it to the new colour.
+  // Only a change of step selects, so a hover/click choice holds until you scroll on.
+  const scrollStep = useRef(-1);
   useScrollProgress(panelRef, (progress) => {
     recordRef.current?.style.setProperty('--scroll-turn', `${(progress * 540).toFixed(1)}deg`);
+    const local = Math.min(1, Math.max(0, (progress - 0.2) / 0.55)); // 0→1 while centred on screen
+    const step = Math.min(items.length - 1, Math.floor(local * items.length));
+    if (step !== scrollStep.current) {
+      scrollStep.current = step;
+      setActiveId(items[step].id);
+    }
   });
   const hoverTimer = useRef(0);
   // Hover only selects once the pointer rests on a track, so passing over
