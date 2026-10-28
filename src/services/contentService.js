@@ -9,6 +9,7 @@
 
 import { siteContent } from '@/data/siteContent';
 import { projects } from '@/data/projects';
+import { formedClients } from '@/data/campaigns';
 
 const isPublished = (project) => project.status === 'published';
 
@@ -25,4 +26,14 @@ export async function getProjectSummaries() {
 export async function getProjectBySlug(slug) {
   const project = projects.find((item) => item.slug === slug);
   return project && isPublished(project) ? project : null;
+}
+
+/** synth.formed: every client with its campaigns (client → campaigns → campaign). */
+export async function getFormedClients() {
+  return formedClients();
+}
+
+/** One client (with campaigns) by slug, or null. */
+export async function getFormedClient(slug) {
+  return formedClients().find((client) => client.slug === slug) ?? null;
 }

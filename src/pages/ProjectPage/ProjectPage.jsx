@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { Icon } from '@/components/ui/Icon';
 import { SmartImage } from '@/components/ui/SmartImage';
@@ -28,9 +28,9 @@ export function ProjectPage() {
  * 2. Gallery — images only: a 3-column grid on desktop,
  *    full-screen images scrolling down on mobile.
  */
-function ProjectView({ project, site }) {
+export function ProjectView({ project, site, campaign, backTo }) {
   const { openMenu } = useMenu();
-  useDocumentTitle(project.name);
+  useDocumentTitle(campaign ? `${project.name} — ${campaign.title}` : project.name);
   const imageCount = String(project.slides.length).padStart(2, '0');
 
   return (
@@ -45,6 +45,12 @@ function ProjectView({ project, site }) {
 
           <div className="project-intro__body">
             <ProjectBrand name={project.name} logo={project.logo} />
+            {campaign && (
+              <p className="project-intro__campaign">
+                <span>Campaign {campaign.number} / {String(campaign.total).padStart(2, '0')}</span>
+                <strong>{campaign.title}</strong>
+              </p>
+            )}
             <p className="project-intro__concept">{project.description}</p>
             <ColorPalette colors={project.palette} />
           </div>
@@ -70,10 +76,17 @@ function ProjectView({ project, site }) {
         </section>
       </main>
 
-      <button type="button" className="project-page__back" onClick={openMenu}>
-        <Icon name="arrow-left" />
-        <span className="visually-hidden">All projects</span>
-      </button>
+      {backTo ? (
+        <Link className="project-page__back" to={backTo}>
+          <Icon name="arrow-left" />
+          <span className="visually-hidden">All {project.name} campaigns</span>
+        </Link>
+      ) : (
+        <button type="button" className="project-page__back" onClick={openMenu}>
+          <Icon name="arrow-left" />
+          <span className="visually-hidden">All projects</span>
+        </button>
+      )}
     </div>
   );
 }

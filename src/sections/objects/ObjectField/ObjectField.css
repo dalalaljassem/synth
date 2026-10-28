@@ -49,6 +49,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain; /* tall and wide objects fit the same square spot */
+  filter: drop-shadow(0 14px 12px rgba(0, 0, 0, 0.14)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
   pointer-events: none;
   transition: transform 380ms var(--ease-out), filter 380ms var(--ease-out);
 }
@@ -207,26 +208,80 @@
 
 .object-field__panel-title {
   margin: var(--space-3) 0 0;
-  font-size: clamp(2.75rem, 1.6rem + 5vw, 7rem);
+  font-size: clamp(2.25rem, 1.3rem + 4vw, 5.75rem);
   font-weight: var(--weight-medium, 500);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   line-height: 0.95;
+  text-transform: uppercase;
 }
 
+/* Big view + thumbnails: thumbs run along the bottom on phones, down the left on desktop */
 .object-field__panel-art {
-  position: relative;
   flex: 1;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-3);
   min-height: 0;
   margin-block: var(--space-5);
 }
 
+.object-field__shot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
 /* fills the space between title and text, never overlapping either */
-.object-field__panel-art img {
+.object-field__shot img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  animation: object-field-shot-in 420ms var(--ease-out) both;
+}
+
+.object-field__shot img.is-cutout {
+  filter: drop-shadow(0 26px 22px rgba(0, 0, 0, 0.16)) drop-shadow(0 4px 5px rgba(0, 0, 0, 0.1));
+}
+
+.object-field__thumbs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.object-field__thumb {
+  flex: none;
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0.2rem;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out);
+}
+
+.object-field__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.object-field__thumb.is-cutout img {
+  object-fit: contain;
+}
+
+.object-field__thumb.is-active,
+.object-field__thumb:hover {
+  border-color: var(--ink);
+}
+
+@keyframes object-field-shot-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .object-field__panel-text {
@@ -258,6 +313,20 @@
 }
 
 @media (min-width: 64rem) {
+  .object-field__panel-art {
+    flex-direction: row;
+  }
+
+  .object-field__thumbs {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .object-field__thumb {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
   .object-field {
     height: calc(min(80svh, 50rem) + var(--field-extra, 0px)); /* just tall enough for the 5-across scatter */
     min-height: 32rem;

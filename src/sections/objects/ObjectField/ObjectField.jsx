@@ -9,10 +9,47 @@ const rand = (i, j, salt = 0) => {
 };
 
 const ZOOMS = [1, 1.4, 1.9, 2.5]; // × the "fit everything" scale; the first step is the full view
-const SPOTS = 9;           // objects on the table; the item list repeats to fill them
+const SPOTS = 10;          // objects on the table; the item list repeats to fill them
 // Wide screens: a long, low scatter (5 across); phones: 3 across
 const colsFor = (width) => (width < 640 ? 3 : 5);
 const ORDER = Array.from({ length: SPOTS }, (_, k) => k).sort((a, b) => rand(a, 1, 9) - rand(b, 1, 9));
+
+/**
+ * The open object: a large view plus thumbnails of its variations
+ * (cut-out first, then the brand inspiration and material board).
+ */
+function PanelGallery({ item }) {
+  const shots = item.gallery?.length ? item.gallery : [item.image];
+  const [index, setIndex] = useState(0);
+  return (
+    <div className="object-field__panel-art">
+      {shots.length > 1 && (
+        <div className="object-field__thumbs" role="tablist" aria-label={`${item.name} images`}>
+          {shots.map((src, i) => (
+            <button
+              key={src}
+              type="button"
+              role="tab"
+              aria-selected={i === index}
+              className={`object-field__thumb ${i === index ? 'is-active' : ''} ${i === 0 ? 'is-cutout' : ''}`.trim()}
+              onClick={() => setIndex(i)}
+            >
+              <img src={src} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="object-field__shot">
+        <img
+          key={shots[index]}
+          src={shots[index]}
+          alt={index === 0 ? item.name : `${item.name}, image ${index + 1}`}
+          className={index === 0 ? 'is-cutout' : 'is-photo'}
+        />
+      </div>
+    </div>
+  );
+}
 
 /**
  * synth.objects: a table of cut-out objects (after palmer-dinnerware.com).
@@ -227,7 +264,7 @@ export function ObjectField({ items, label = 'Objects' }) {
       const j = Math.floor(k / COLS);
       // deal the objects into the spots in a fixed, shuffled order (each once while there are ≤ 9)
       const item = items[ORDER[k] % items.length];
-      const scale = 0.55 + rand(i, j, 3) * 0.5;
+      const scale = 0.86; // every object gets the same size spot
       cells.push({
         key: k,
         item,
@@ -296,9 +333,7 @@ export function ObjectField({ items, label = 'Objects' }) {
           <div key={selected.id} className="object-field__panel-inner">
             <p className="object-field__panel-meta">synth.objects — {selected.meta ?? 'Object'}</p>
             <h2 className="object-field__panel-title">{selected.name}</h2>
-            <div className="object-field__panel-art">
-              <img src={selected.image} alt={selected.name} />
-            </div>
+            <PanelGallery key={selected.id} item={selected} />
             {selected.description && <p className="object-field__panel-text">{selected.description}</p>}
           </div>
         )}

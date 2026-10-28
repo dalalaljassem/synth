@@ -172,10 +172,11 @@ export const siteContent = {
       name: 'synth.formed',
       accent: '#cdf408',
       art: 'formed',
-      meta: '(21) Projects',
+      meta: '(20) Clients',
       description:
         'Campaigns, identities and imagery. Familiar brands and products, formed into scenes and stories people stop for.',
       showcase: 'home',
+      clients: true, // show the client cards instead of the bento
     },
     objects: {
       name: 'synth.objects',
@@ -195,6 +196,12 @@ export const siteContent = {
             meta: '01 / Nagwa',
             image: '/images/objects/ramadan-hamper-pouf.webp',
             thumb: '/images/objects/ramadan-hamper-pouf-sm.webp',
+            gallery: [
+              '/images/objects/ramadan-hamper-pouf.webp',
+              '/images/objects/nagwa-hamper.webp',
+              '/images/objects/nagwa-poufs.webp',
+              '/images/objects/nagwa-board.webp',
+            ],
             description: 'A sculptural pouf inspired by Nagwa’s Ramadan hamper collection, translating festive embroidery and ornamental textiles into ivory upholstery, green velvet panels, and a glossy pedestal base.',
           },
           {
@@ -203,6 +210,9 @@ export const siteContent = {
             meta: '02 / Studio Sweat',
             image: '/images/objects/solitaire-playing-cards.webp',
             thumb: '/images/objects/solitaire-playing-cards-sm.webp',
+            gallery: [
+              '/images/objects/solitaire-playing-cards.webp',
+            ],
             description: 'A sculptural house of cards inspired by Studio Sweat’s fitness identity, reimagining playing card graphics through workout-inspired motifs, rich red surfaces, and metallic detailing.',
           },
           {
@@ -211,6 +221,11 @@ export const siteContent = {
             meta: '03 / Pick',
             image: '/images/objects/chocolate-stools.webp',
             thumb: '/images/objects/chocolate-stools-sm.webp',
+            gallery: [
+              '/images/objects/chocolate-stools.webp',
+              '/images/objects/pick-cake.webp',
+              '/images/objects/pick-board.webp',
+            ],
             description: 'A pair of playful stools inspired by Pick’s chocolate-coated treats, combining porous dessert-like textures, creamy layers, glossy chocolate drips, and wooden stick details.',
           },
           {
@@ -219,6 +234,11 @@ export const siteContent = {
             meta: '04 / JS Bakery',
             image: '/images/objects/granola-stool.webp',
             thumb: '/images/objects/granola-stool-sm.webp',
+            gallery: [
+              '/images/objects/granola-stool.webp',
+              '/images/objects/jsbakery-granola.webp',
+              '/images/objects/jsbakery-board.webp',
+            ],
             description: 'A geometric stool inspired by JS Bakery’s granola bars, pairing a toasted, textured seat with contrasting speckled green supports and warm natural wood.',
           },
           {
@@ -227,6 +247,10 @@ export const siteContent = {
             meta: '05 / Thuna',
             image: '/images/objects/buckle-chair.webp',
             thumb: '/images/objects/buckle-chair-sm.webp',
+            gallery: [
+              '/images/objects/buckle-chair.webp',
+              '/images/objects/thuna-shoe.webp',
+            ],
             description: 'An angular chair inspired by Thuna’s footwear, translating shoe construction into folded sculptural panels, smooth leather-like finishes, strap detailing, and patterned upholstery.',
           },
           {
@@ -235,6 +259,12 @@ export const siteContent = {
             meta: '06 / Nagwa',
             image: '/images/objects/embroidered-pouf.webp',
             thumb: '/images/objects/embroidered-pouf-sm.webp',
+            gallery: [
+              '/images/objects/embroidered-pouf.webp',
+              '/images/objects/nagwa-poufs.webp',
+              '/images/objects/nagwa-hamper.webp',
+              '/images/objects/nagwa-board.webp',
+            ],
             description: 'A rounded pouf inspired by Nagwa’s Ramadan collection, combining gathered ivory upholstery, intricately embroidered bands, and a polished cream pedestal to evoke festive craftsmanship.',
           },
           {
@@ -243,6 +273,10 @@ export const siteContent = {
             meta: '07 / Thuna',
             image: '/images/objects/sculptural-lounger.webp',
             thumb: '/images/objects/sculptural-lounger-sm.webp',
+            gallery: [
+              '/images/objects/sculptural-lounger.webp',
+              '/images/objects/thuna-shoe.webp',
+            ],
             description: 'A low-profile lounger inspired by Thuna’s footwear silhouettes, translating curved soles, layered construction, and contrasting textures into a flowing upholstered seat with black supports.',
           },
           {
@@ -251,6 +285,11 @@ export const siteContent = {
             meta: '08 / Go Greek',
             image: '/images/objects/bistro-chair.webp',
             thumb: '/images/objects/bistro-chair-sm.webp',
+            gallery: [
+              '/images/objects/bistro-chair.webp',
+              '/images/objects/gogreek-cup.webp',
+              '/images/objects/gogreek-board.webp',
+            ],
             description: 'A bistro chair inspired by Go Greek’s visual identity, combining signature blue-and-white striped upholstery, yellow honeycomb mesh, and a curved ivory frame.',
           },
           {
@@ -259,7 +298,26 @@ export const siteContent = {
             meta: '09 / BFS',
             image: '/images/objects/oat-cookie-chair.webp',
             thumb: '/images/objects/oat-cookie-chair-sm.webp',
+            gallery: [
+              '/images/objects/oat-cookie-chair.webp',
+              '/images/objects/bfs-cookie.webp',
+              '/images/objects/bfs-board.webp',
+            ],
             description: 'A playful low chair inspired by BFS’ oat cookie, combining biscuit-toned textured upholstery, a checkerboard back support, sculptural chocolate-like detailing, and timber legs.',
+          },
+          {
+            id: 'liberty-chair',
+            name: 'Liberty Chair',
+            meta: '10 / Liberation Tower',
+            image: '/images/objects/liberty-chair.webp',
+            thumb: '/images/objects/liberty-chair-sm.webp',
+            gallery: [
+              '/images/objects/liberty-chair.webp',
+              '/images/objects/liberation-tower.webp',
+              '/images/objects/liberation-board.webp',
+            ],
+            // DRAFT copy: not in the objects PDF yet
+            description: 'A slender chair inspired by Kuwait’s Liberation Tower, translating its tapering spire and observation deck into a tall, needle-like back, a disc seat, and a tiled teal base.',
           },
         ],
       },

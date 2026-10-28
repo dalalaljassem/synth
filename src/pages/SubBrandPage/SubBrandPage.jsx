@@ -5,6 +5,7 @@ import { SynthMark } from '@/components/ui/SynthMark';
 import { IsometricArt } from '@/components/art';
 import { ShowcaseSection } from '@/sections/home/ShowcaseSection';
 import { ObjectField } from '@/sections/objects/ObjectField';
+import { ClientGrid } from '@/sections/formed/ClientGrid';
 import { ContactSection } from '@/sections/home/ContactSection';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { useAsyncData } from '@/hooks/useAsyncData';
@@ -72,7 +73,10 @@ export function SubBrandPage({ brand }) {
         </div>
 
         {/* synth.objects: floating object table instead of the bento */}
-        {sub.field ? (
+        {/* synth.formed: a card for every client (→ campaigns → campaign) */}
+        {sub.clients ? (
+          <ClientGrid />
+        ) : sub.field ? (
           <ObjectField {...sub.field} />
         ) : (
           <ShowcaseSection morseCode={content.morseCode} {...showcase} />

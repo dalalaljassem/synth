@@ -54,6 +54,25 @@
   filter: brightness(0);
 }
 
+.project-intro__campaign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.project-intro__campaign strong {
+  font-family: var(--font-sans);
+  font-size: var(--text-heading-3);
+  font-weight: var(--weight-medium, 500);
+  letter-spacing: 0.02em;
+}
+
 .project-intro__concept {
   margin: 0;
   font-size: var(--text-lead);
