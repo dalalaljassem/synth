@@ -40,7 +40,7 @@
 .campaign-folder {
   --tab: 2.5rem;        /* height of the tab step */
   --tab-end: 52%;       /* where the tab stops */
-  --folder: #e6e6e4; /* a clear grey: #f1f1f1 read as white on brighter screens */
+  --folder: var(--color-grey-light);
   position: relative;
   display: block;
   color: var(--color-black);
