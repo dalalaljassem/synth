@@ -194,6 +194,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow-y: auto; /* last resort on very short screens: scroll, never overlap */
   padding: calc(var(--header-height) + var(--space-4)) var(--gutter) var(--space-6); /* clear the floating header */
   animation: object-field-panel-in 700ms var(--ease-out) both;
 }
@@ -208,11 +209,14 @@
 
 .object-field__panel-title {
   margin: var(--space-3) 0 0;
-  font-size: clamp(2.25rem, 1.3rem + 4vw, 5.75rem);
+  /* sized by width AND height, so long names (Ramadan Hamper Pouf) still fit */
+  font-size: min(clamp(1.75rem, 1rem + 3vw, 4.5rem), 7.5vh);
   font-weight: var(--weight-medium, 500);
   letter-spacing: -0.02em;
   line-height: 0.95;
   text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 /* Big view + thumbnails: thumbs run along the bottom on phones, down the left on desktop */
@@ -221,8 +225,8 @@
   display: flex;
   flex-direction: column-reverse;
   gap: var(--space-3);
-  min-height: 0;
-  margin-block: var(--space-5);
+  min-height: 9rem;
+  margin-block: var(--space-4);
 }
 
 .object-field__shot {
@@ -246,8 +250,10 @@
 }
 
 .object-field__thumbs {
+  flex: none;
   display: flex;
   gap: var(--space-2);
+  min-height: 0;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -317,14 +323,18 @@
     flex-direction: row;
   }
 
+  /* thumbs never grow past the image area: they shrink with the screen
+     height and scroll if there are more than fit */
   .object-field__thumbs {
     flex-direction: column;
-    overflow: visible;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .object-field__thumb {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: clamp(2.75rem, 8vh, 4.5rem);
+    height: clamp(2.75rem, 8vh, 4.5rem);
   }
 
   .object-field {

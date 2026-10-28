@@ -45,6 +45,9 @@
   display: block;
   color: var(--color-black);
   text-decoration: none;
+  /* hairline outline that follows the folder shape, so the folder reads
+     on any screen, even where the grey looks white */
+  filter: drop-shadow(0 0 0.5px rgba(0, 0, 0, 0.55));
   transition: transform 400ms var(--ease-out);
 }
 
