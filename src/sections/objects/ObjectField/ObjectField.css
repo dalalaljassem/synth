@@ -4,8 +4,8 @@
   --table: var(--color-white);
   --ink: var(--color-black);
   position: relative;
-  height: calc(min(92svh, 60rem) + var(--field-extra, 0px));
-  min-height: 34rem;
+  height: calc(min(66svh, 34rem) + var(--field-extra, 0px)); /* phones: the 3×3 scatter fits without empty bands */
+  min-height: 26rem;
   overflow: hidden;
   background: var(--table);
 }
@@ -39,13 +39,16 @@
 }
 
 .object-field__float {
+  width: 100%;
+  height: 100%;
   animation: object-field-float var(--float, 6s) ease-in-out var(--delay, 0s) infinite alternate;
 }
 
 .object-field__float img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain; /* tall and wide objects fit the same square spot */
   pointer-events: none;
   transition: transform 380ms var(--ease-out), filter 380ms var(--ease-out);
 }
@@ -105,7 +108,7 @@
 
 .object-field__count {
   position: absolute;
-  top: var(--space-5);
+  bottom: calc(var(--space-5) + 0.9rem); /* bottom-left, level with the zoom buttons */
   left: var(--gutter);
   display: flex;
   align-items: center;
@@ -131,6 +134,17 @@
 
 .object-field__hint {
   margin-right: var(--space-3);
+}
+
+/* Touch screens and phones zoom with a pinch, so the − / + buttons are hidden there */
+@media (hover: none) and (pointer: coarse), (max-width: 40rem) {
+  .object-field__controls .object-field__zoom {
+    display: none;
+  }
+
+  .object-field__hint {
+    margin-right: 0;
+  }
 }
 
 .object-field__zoom,
@@ -179,7 +193,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: var(--space-6) var(--gutter);
+  padding: calc(var(--header-height) + var(--space-4)) var(--gutter) var(--space-6); /* clear the floating header */
   animation: object-field-panel-in 700ms var(--ease-out) both;
 }
 
@@ -200,16 +214,18 @@
 }
 
 .object-field__panel-art {
+  position: relative;
   flex: 1;
-  display: grid;
-  place-items: center;
   min-height: 0;
-  padding-block: var(--space-5);
+  margin-block: var(--space-5);
 }
 
+/* fills the space between title and text, never overlapping either */
 .object-field__panel-art img {
-  max-width: min(100%, 34rem);
-  max-height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -242,6 +258,11 @@
 }
 
 @media (min-width: 64rem) {
+  .object-field {
+    height: calc(min(80svh, 50rem) + var(--field-extra, 0px)); /* just tall enough for the 5-across scatter */
+    min-height: 32rem;
+  }
+
   .object-field__panel {
     width: 58%;
   }

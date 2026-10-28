@@ -4,6 +4,11 @@
   gap: var(--section-gap);
 }
 
+/* ...and starts right under the intro, no gap above it either */
+.sub-brand-page__intro + .object-field {
+  margin-top: calc(-1 * var(--section-gap));
+}
+
 /* The objects table runs straight into the black footer: the table grows
    to fill the usual gap, so the footer keeps its place and size */
 .sub-brand-page .object-field {

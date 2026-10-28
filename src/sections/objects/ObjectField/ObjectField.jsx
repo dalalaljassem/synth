@@ -8,10 +8,11 @@ const rand = (i, j, salt = 0) => {
   return n - Math.floor(n);
 };
 
-const ZOOMS = [0.6, 0.8, 1, 1.25, 1.55];
+const ZOOMS = [1, 1.4, 1.9, 2.5]; // × the "fit everything" scale; the first step is the full view
 const SPOTS = 9;           // objects on the table; the item list repeats to fill them
-const COLS = 3;
-const ROWS = Math.ceil(SPOTS / COLS);
+// Wide screens: a long, low scatter (5 across); phones: 3 across
+const colsFor = (width) => (width < 640 ? 3 : 5);
+const ORDER = Array.from({ length: SPOTS }, (_, k) => k).sort((a, b) => rand(a, 1, 9) - rand(b, 1, 9));
 
 /**
  * synth.objects: a table of cut-out objects (after palmer-dinnerware.com).
@@ -27,18 +28,25 @@ export function ObjectField({ items, label = 'Objects' }) {
   const cam = useRef({ x: 0, y: 0, scale: 1, target: 1, vx: 0, vy: 0 });
   const drag = useRef(null);
   const frame = useRef(0);
-  const size = useRef({ w: 0, h: 0, cell: 170 });
+  const size = useRef({ w: 0, h: 0, cell: 170, cols: 5, fit: 1, home: { x: 0, y: 0 } });
   const reduced = useRef(false);
   const [cell, setCell] = useState(0);
-  const [zoomIndex, setZoomIndex] = useState(2);
+  const zoomRef = useRef(0);
+  const [zoomIndex, setZoomIndex] = useState(0);
   const [selected, setSelected] = useState(null);
 
   // Keep the camera over the table: you can drag to its edges, not past them
   const clamp = () => {
-    const { w, h, cell: c } = size.current;
+    const { w, h, cell: c, cols } = size.current;
     const cm = cam.current;
-    const worldW = COLS * c;
-    const worldH = ROWS * c + c / 2;
+    if (cm.scale <= size.current.fit * 1.01) {
+      // full view: the table stays put in its home position
+      cm.x = size.current.home.x;
+      cm.y = size.current.home.y;
+      return;
+    }
+    const worldW = cols * c;
+    const worldH = Math.ceil(SPOTS / cols) * c + c / 2;
     const roomX = Math.max(0, (worldW - w / cm.scale) / 2 + c * 0.4);
     const roomY = Math.max(0, (worldH - h / cm.scale) / 2 + c * 0.4);
     const cx = worldW / 2 - c / 2;
@@ -87,15 +95,24 @@ export function ObjectField({ items, label = 'Objects' }) {
     const measure = () => {
       const el = viewRef.current;
       if (!el) return;
-      const c = el.clientWidth < 640 ? 210 : 420;
-      const first = !size.current.w;
-      size.current = { w: el.clientWidth, h: el.clientHeight, cell: c };
-      if (first) {
-        // start over the middle of the table
-        cam.current.x = (COLS * c) / 2 - c / 2;
-        cam.current.y = (ROWS * c + c / 2) / 2 - c / 2;
-      }
-      setCell(c);
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      const c = 300; // layout unit; the whole table is scaled to fit the screen
+      const cols = colsFor(w);
+      const rows = Math.ceil(SPOTS / cols);
+      const worldW = cols * c;
+      const worldH = rows * c + c / 2;
+      // full view: every object on screen at once, leaving room for the labels
+      const fit = Math.min((w * 0.9) / worldW, ((h - 120) * 0.92) / worldH);
+      const home = { x: worldW / 2 - c / 2, y: -0.42 * c + (h / 2 - 16) / fit };
+      size.current = { w, h, cell: c, cols, fit, home };
+      // centre on the table and start (or stay) at the current zoom step
+      // home: the scatter anchored to the top of the table (no white band under the intro)
+      cam.current.x = home.x;
+      cam.current.y = home.y;
+      cam.current.target = fit * ZOOMS[zoomRef.current];
+      cam.current.scale = cam.current.target;
+      setCell(c + cols / 100); // re-render the layout when the column count changes
       apply();
     };
     measure();
@@ -106,9 +123,26 @@ export function ObjectField({ items, label = 'Objects' }) {
     };
   }, [apply]);
 
+  // ---- Pinch to zoom (phones): two fingers scale between the full view and the closest zoom ----
+  const touches = useRef(new Map());
+  const pinch = useRef(null);
+  const fingerGap = () => {
+    const [a, b] = [...touches.current.values()];
+    return Math.hypot(a.x - b.x, a.y - b.y) || 1;
+  };
+
   // ---- Dragging ----
   const onPointerDown = (event) => {
     if (event.button !== 0 || event.target.closest('button')) return;
+    if (event.pointerType === 'touch') {
+      touches.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      if (touches.current.size === 2) {
+        pinch.current = { gap: fingerGap(), scale: cam.current.scale };
+        drag.current = null; // a pinch is never a tap or a drag
+        viewRef.current.setPointerCapture?.(event.pointerId);
+        return;
+      }
+    }
     drag.current = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: 0, touch: event.pointerType === 'touch', t: performance.now() };
     cam.current.vx = 0;
     cam.current.vy = 0;
@@ -116,6 +150,15 @@ export function ObjectField({ items, label = 'Objects' }) {
   };
 
   const onPointerMove = (event) => {
+    if (touches.current.has(event.pointerId)) touches.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pinch.current && touches.current.size >= 2) {
+      const { fit } = size.current;
+      const next = Math.min(fit * ZOOMS[ZOOMS.length - 1], Math.max(fit, (pinch.current.scale * fingerGap()) / pinch.current.gap));
+      cam.current.scale = next;
+      cam.current.target = next;
+      apply();
+      return;
+    }
     const d = drag.current;
     if (!d || d.id !== event.pointerId) return;
     const dx = event.clientX - d.x;
@@ -133,6 +176,12 @@ export function ObjectField({ items, label = 'Objects' }) {
   };
 
   const onPointerUp = (event) => {
+    touches.current.delete(event.pointerId);
+    if (pinch.current) {
+      if (touches.current.size < 2) pinch.current = null;
+      drag.current = null;
+      return;
+    }
     const d = drag.current;
     if (!d || d.id !== event.pointerId) return;
     drag.current = null;
@@ -155,7 +204,8 @@ export function ObjectField({ items, label = 'Objects' }) {
   const zoom = (step) => {
     const nextIndex = Math.min(ZOOMS.length - 1, Math.max(0, zoomIndex + step));
     setZoomIndex(nextIndex);
-    cam.current.target = ZOOMS[nextIndex];
+    zoomRef.current = nextIndex;
+    cam.current.target = size.current.fit * ZOOMS[nextIndex];
     if (reduced.current) cam.current.scale = cam.current.target;
     kick();
   };
@@ -171,18 +221,19 @@ export function ObjectField({ items, label = 'Objects' }) {
   // ---- Table layout: 9 spots on a staggered 3×3 grid, mixed sizes, a little jitter ----
   const cells = [];
   if (cell && items.length) {
+    const { cell: unit, cols: COLS } = size.current;
     for (let k = 0; k < SPOTS; k += 1) {
       const i = k % COLS;
       const j = Math.floor(k / COLS);
-      // deal the objects in a mixed order so repeats don't sit side by side
-      const item = items[(k * 7 + j * 2) % items.length];
+      // deal the objects into the spots in a fixed, shuffled order (each once while there are ≤ 9)
+      const item = items[ORDER[k] % items.length];
       const scale = 0.55 + rand(i, j, 3) * 0.5;
       cells.push({
         key: k,
         item,
-        x: i * cell + (rand(i, j, 4) - 0.5) * cell * 0.3,
-        y: j * cell + (i % 2 ? cell / 2 : 0) + (rand(i, j, 5) - 0.5) * cell * 0.3,
-        width: cell * 0.62 * scale,
+        x: i * unit + (rand(i, j, 4) - 0.5) * unit * 0.22,
+        y: j * unit + (i % 2 ? unit / 2 : 0) + (rand(i, j, 5) - 0.5) * unit * 0.22,
+        width: unit * 0.8 * scale,
         float: 5 + rand(i, j, 6) * 4,
         delay: -rand(i, j, 7) * 8,
       });
@@ -209,6 +260,7 @@ export function ObjectField({ items, label = 'Objects' }) {
                 left: c.x,
                 top: c.y,
                 width: c.width,
+                height: c.width,
                 '--float': `${c.float}s`,
                 '--delay': `${c.delay}s`,
               }}
