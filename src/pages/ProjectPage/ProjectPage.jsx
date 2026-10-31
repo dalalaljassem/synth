@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { Icon } from '@/components/ui/Icon';
 import { SmartImage } from '@/components/ui/SmartImage';
+import { LazyVideo } from '@/components/ui/LazyVideo';
 import { ProjectBrand } from '@/components/project/ProjectBrand';
 import { ColorPalette } from '@/components/project/ColorPalette';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -64,6 +65,14 @@ export function ProjectView({ project, site, campaign, backTo }) {
         <section className="project-gallery" aria-label={`${project.name} images`}>
           {project.slides.map((slide, index) => (
             <figure key={slide.id} className="project-gallery__item">
+              {slide.video ? (
+                <LazyVideo
+                  className="project-gallery__image"
+                  src={slide.video}
+                  poster={slide.image}
+                  label={`${project.name} — video ${index + 1} of ${project.slides.length}`}
+                />
+              ) : (
               <SmartImage
                 className="project-gallery__image"
                 src={slide.image}
@@ -71,6 +80,7 @@ export function ProjectView({ project, site, campaign, backTo }) {
                 style={{ objectPosition: slide.focus }}
                 loading={index < 3 ? 'eager' : 'lazy'}
               />
+              )}
             </figure>
           ))}
         </section>

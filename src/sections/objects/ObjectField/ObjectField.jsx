@@ -21,6 +21,8 @@ const ORDER = Array.from({ length: SPOTS }, (_, k) => k).sort((a, b) => rand(a, 
 function PanelGallery({ item }) {
   const shots = item.gallery?.length ? item.gallery : [item.image];
   const [index, setIndex] = useState(0);
+  // no-background images (the object itself, plus any listed in item.cutouts)
+  const isCutout = (src, i) => i === 0 || (item.cutouts ?? []).includes(src);
   return (
     <div className="object-field__panel-art">
       {shots.length > 1 && (
@@ -31,7 +33,7 @@ function PanelGallery({ item }) {
               type="button"
               role="tab"
               aria-selected={i === index}
-              className={`object-field__thumb ${i === index ? 'is-active' : ''} ${i === 0 ? 'is-cutout' : ''}`.trim()}
+              className={`object-field__thumb ${i === index ? 'is-active' : ''} ${isCutout(src, i) ? 'is-cutout' : ''}`.trim()}
               onClick={() => setIndex(i)}
             >
               <img src={src} alt="" loading="lazy" />
@@ -44,7 +46,7 @@ function PanelGallery({ item }) {
           key={shots[index]}
           src={shots[index]}
           alt={index === 0 ? item.name : `${item.name}, image ${index + 1}`}
-          className={index === 0 ? 'is-cutout' : 'is-photo'}
+          className={isCutout(shots[index], index) ? 'is-cutout' : 'is-photo'}
         />
       </div>
     </div>

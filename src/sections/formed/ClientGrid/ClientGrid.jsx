@@ -27,7 +27,7 @@ export function ClientGrid() {
                 <div className="client-card__media notched__media" style={{ background: client.background }}>
                   <SmartImage
                     className="client-card__image"
-                    src={client.campaigns[0].cover}
+                    src={client.slides[0].image}
                     alt=""
                     style={{ objectPosition: client.slides[0].focus }}
                     loading={index < 6 ? 'eager' : 'lazy'}

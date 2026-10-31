@@ -223,6 +223,7 @@ export const siteContent = {
             thumb: '/images/objects/chocolate-stools-sm.webp',
             gallery: [
               '/images/objects/chocolate-stools.webp',
+              '/images/objects/pick-stools.webp',
               '/images/objects/pick-cake.webp',
               '/images/objects/pick-board.webp',
             ],
@@ -247,6 +248,7 @@ export const siteContent = {
             meta: '05 / Thuna',
             image: '/images/objects/buckle-chair.webp',
             thumb: '/images/objects/buckle-chair-sm.webp',
+            cutouts: ['/images/objects/thuna-shoe.webp'],
             gallery: [
               '/images/objects/buckle-chair.webp',
               '/images/objects/thuna-shoe.webp',
@@ -273,6 +275,7 @@ export const siteContent = {
             meta: '07 / Thuna',
             image: '/images/objects/sculptural-lounger.webp',
             thumb: '/images/objects/sculptural-lounger-sm.webp',
+            cutouts: ['/images/objects/thuna-shoe.webp'],
             gallery: [
               '/images/objects/sculptural-lounger.webp',
               '/images/objects/thuna-shoe.webp',
